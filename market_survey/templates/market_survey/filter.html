@@ -1,0 +1,38 @@
+{% extends "admin/base_site.html" %}
+{% load i18n humanize %}
+
+{% block extrastyle %}
+<style>
+p {padding: 5px;}
+</style>
+{% endblock %}
+
+{% block content %}
+    <form action="" method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+    <hr>
+    <div>
+        <table>
+            <tr>
+                <td>{% trans 'Vendor' %}</td>
+                <td>{% trans 'Vegetable' %}</td>
+                <td>{% trans 'Purchase Price' %}</td>
+                <td>{% trans 'Purchase Quantity' %}</td>
+                <td>{% trans 'Sale Price' %}</td>
+                <td>{% trans 'District Origin' %}</td>
+            </tr>
+        {% for obj in filter %}
+            <tr>
+                <td> {{ obj.vendor_survey}} </td>
+                <td> {{ obj.vegetable }} </td>
+                <td> ${{ obj.purchase_price|floatformat:2 }} </td>
+                <td> {{ obj.purchase_quantity }} </td>
+                <td> ${{ obj.sale_price|floatformat:2 }} </td>
+                <td> {{ obj.district }} </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}
