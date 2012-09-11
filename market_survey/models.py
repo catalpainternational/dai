@@ -110,7 +110,7 @@ class Commodity(models.Model):
     purchase_price = models.FloatField(_('price (buy)'))
 
     # Kuantiade nebe ita atou fa'an ohin
-    sale_quatity = models.IntegerField(_('quantity (sell)'))
+    sale_quantity = models.IntegerField(_('quantity (sell)'))
     sale_price = models.FloatField(_('price (sell)'))
 
      # Distritu nebe mak kuda modo hirak ne'e
@@ -126,7 +126,7 @@ class Commodity(models.Model):
     @property
     def profit_margin(self,):
         wholesale_price = self.purchase_price * self.purchase_quantity
-        retail_price = self.sale_price * self.sale_quatity
+        retail_price = self.sale_price * self.sale_quantity
         return (retail_price - wholesale_price / wholesale_price)
 
 
