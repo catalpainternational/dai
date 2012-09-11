@@ -6,10 +6,15 @@ from filters import CommodityFilter
 from django.db.models import Avg, Sum
 
 
+def index(request):
+    return render_to_response('market_survey/index.html')
+
+
 def product_list(request):
     filter = CommodityFilter(request.GET, queryset=Commodity.objects.all())
     # This worked: filter.queryset.aggregate(Avg('sale_price'))
     return render_to_response('market_survey/filter.html', {'filter': filter})
+
 
 
 def avg_product_list(request):

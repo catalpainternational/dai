@@ -4,9 +4,11 @@
 {% block content %}
     {% block object-tools %}{% endblock %}
     <div>
-    	<a href=''><i></i></a>
-    	<a href=''><i></i></a>
-    	<a href=''><i></i></a>
-    	<a href=''><i></i></a>
+      <ul>
+    	<li><a href='{% url filtering %}'><i>General Filtering</i></a></li>
+    	<li><a href='{% url summary %}'><i>Filterable Summary</i></a></li>
+        <li><i>Filterable Origins</i> ?</li>
+        <li><i>Filterable Totals</i> ?</li>
+      </ul>
     </div>
 {% endblock %}
