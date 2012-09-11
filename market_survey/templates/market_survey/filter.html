@@ -22,6 +22,7 @@ p {padding: 5px;}
                 <td>{% trans 'Purchase Quantity' %}</td>
                 <td>{% trans 'Sale Price' %}</td>
                 <td>{% trans 'District Origin' %}</td>
+                <td>{% trans 'Profit Margin' %}</td>
             </tr>
         {% for obj in filter %}
             <tr>
@@ -31,6 +32,7 @@ p {padding: 5px;}
                 <td> {{ obj.purchase_quantity }} </td>
                 <td> ${{ obj.sale_price|floatformat:2 }} </td>
                 <td> {{ obj.district }} </td>
+                <td> {{ obj.profit_margin }}% </td>
             </tr>
         {% endfor %}
         </table>
