@@ -123,6 +123,12 @@ class Commodity(models.Model):
     def __unicode__(self):
         return "%s (%s) - %s" % (self.vegetable, self.district, self.vendor_survey)
 
+    @property
+    def profit_margin(self,):
+        wholesale_price = self.purchase_price * self.purchase_quantity
+        retail_price = self.sale_price * self.sale_quatity
+        return (retail_price - wholesale_price / wholesale_price)
+
 
 class VendorSurvey(models.Model):
 

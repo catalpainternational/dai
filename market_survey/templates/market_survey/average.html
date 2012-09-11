@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+{% load i18n humanize %}
+
+{% block extrastyle %}
+<style>
+p {padding: 5px;}
+</style>
+{% endblock %}
+
+{% block content %}
+    <form action="" method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+    <hr>
+    <div>
+     {% trans "Average price"%}:
+     <ul>
+       <li>{% trans "Purchase"%}:  ${{ avg_purchase }}</li>
+       <li>{% trans "Sale"%}:  ${{ avg_sale }}</li>
+     </ul>
+    </div>
+{% endblock %}
