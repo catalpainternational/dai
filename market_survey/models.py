@@ -114,7 +114,7 @@ class Commodity(models.Model):
     sale_price = models.FloatField(_('price (sell)'))
 
      # Distritu nebe mak kuda modo hirak ne'e
-    district = models.CharField(max_length=128, choices=DISTRICTS)
+    district = models.CharField(_('District Origin'), max_length=128, choices=DISTRICTS)
 
     class Meta:
         verbose_name = _('Commodity')
@@ -127,7 +127,7 @@ class Commodity(models.Model):
     def profit_margin(self,):
         wholesale_price = self.purchase_price * self.purchase_quantity
         retail_price = self.sale_price * self.sale_quantity
-        return (retail_price - wholesale_price / wholesale_price)
+        return int((self.sale_price - self.purchase_price) / self.purchase_price * 100)
 
 
 class VendorSurvey(models.Model):
