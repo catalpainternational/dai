@@ -8,8 +8,8 @@ from market_survey import models
 class CommodityInline(admin.TabularInline):
     model = models.Commodity
 
-    list_display = ['vegetable', 'district', 'vendor_survey__season']
-    list_filter = ['vegetable', 'district', 'vendor_survey__season']
+    list_display = ['vegetable', 'district', 'vendor_survey__survey']
+    list_filter = ['vegetable', 'district', 'vendor_survey__survey']
 
     formfield_overrides = {
         IntegerField: {'widget': TextInput(attrs={'style': 'width: 50px'})},
@@ -24,9 +24,9 @@ class VendorSurveyAdmin(admin.ModelAdmin):
         CommodityInline,
     ]
 
-    list_display = ['vendor', 'sex', 'age_range', 'marketplace', 'season', 'payment_amount']
-    list_filter = ['sex', 'marketplace', 'season', 'payment_amount', 'age_range']
-    search_fields = ['vendor', 'marketplace', 'marketplace__district', 'season']
+    list_display = ['vendor', 'sex', 'age_range', 'marketplace', 'survey', 'payment_amount']
+    list_filter = ['sex', 'marketplace', 'survey', 'payment_amount', 'age_range']
+    search_fields = ['vendor', 'marketplace', 'marketplace__district', 'survey']
 
 
 class MarketplaceAdmin(admin.ModelAdmin):
@@ -39,8 +39,8 @@ class MarketplaceAdmin(admin.ModelAdmin):
 class VegetableWeightAdmin(admin.ModelAdmin):
     model = models.VegetableWeight
 
-    list_display = ['vegetable', 'season', 'grams']
-    list_filter = ['vegetable', 'season']
+    list_display = ['vegetable', 'survey', 'grams']
+    list_filter = ['vegetable', 'survey']
 
 
 class VegetableAdmin(admin.ModelAdmin):
@@ -55,5 +55,5 @@ admin.site.register(models.VendorSurvey, VendorSurveyAdmin)
 admin.site.register(models.Marketplace, MarketplaceAdmin)
 admin.site.register(models.Vegetable, VegetableAdmin)
 admin.site.register(models.VegetableWeight, VegetableWeightAdmin)
-admin.site.register(models.Season)
+admin.site.register(models.Survey)
 

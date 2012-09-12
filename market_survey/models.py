@@ -8,10 +8,10 @@ from django_extensions.db.fields import UUIDField
 
 # Distritu
 DISTRICTS = (
-             ('Aileiu', 'Aileiu'),
+             ('Aileu', 'Aileu'),
              ('Ainaro', 'Ainaro'),
              ('Baucau', 'Baucau'),
-             ('Covolima', 'Covolima'),
+             ('Covalima', 'Covalima'),
              ('Dili', 'Dili'),
              ('Ermera', 'Ermera'),
              ('Lautem', 'Lautem'),
@@ -25,11 +25,15 @@ DISTRICTS = (
 ## End of Globals ##
 
 
-class Season(models.Model):
+class Survey(models.Model):
     uuid = UUIDField()
     name = models.CharField(max_length=128)
     month = models.IntegerField(choices=((x, x) for x in range(1, 13)))
     year = models.IntegerField(choices=((x, x) for x in range(2010, 2015)))
+
+    class Meta:
+        verbose_name = _('Survey')
+        verbose_name_plural = _('Surveys')
 
     def __unicode__(self,):
         return "%s (%s/%s)" % (self.name, self.month, self.year)
@@ -39,6 +43,10 @@ class Marketplace(models.Model):
     uuid = UUIDField()
     name = models.CharField(max_length=128)
     district = models.CharField(max_length=128, choices=DISTRICTS)
+
+    class Meta:
+        verbose_name = _('Marketplace')
+        verbose_name_plural = _('Marketplaces')
 
     def __unicode__(self,):
         return "%s (%s)" % (self.name, self.district)
@@ -50,18 +58,26 @@ class Vegetable(models.Model):
     unit = models.CharField(max_length=128)
     description = models.CharField(max_length=128, blank=True, null=True)
 
+    class Meta:
+        verbose_name = _('Vegetable')
+        verbose_name_plural = _('Vegetables')
+
     def __unicode__(self,):
         return "%s (%s)" % (self.name, self.unit)
 
 
 class VegetableWeight(models.Model):
     uuid = UUIDField()
-    season = models.ForeignKey(Season)
+    survey = models.ForeignKey(Survey)
     vegetable = models.ForeignKey(Vegetable)
     grams = models.IntegerField()
 
+    class Meta:
+        verbose_name = _('Average Vegetable Weight')
+        verbose_name_plural = _('Average Vegetable Weights')
+
     def __unicode__(self,):
-        return u"%s (%s)" % (self.vegetable, self.season)
+        return u"%s (%s)" % (self.vegetable, self.survey)
 
 
 class Commodity(models.Model):
@@ -100,18 +116,18 @@ class Commodity(models.Model):
     vegetable = models.ForeignKey(Vegetable)
 
     # Menus iha tempu balun
-    seasonal = models.BooleanField()
+    seasonal_shortage = models.BooleanField(_('Seasonal Shorage'))
 
     # Oin sa ita hetan modo hirak ne'e
-    source_of_vegetable = models.CharField(max_length=128, choices=SOURCES)
+    purchase_arrangement = models.CharField(_("Puchase Arrangement"), max_length=128, choices=SOURCES)
 
     # Ita sosa ho folin hira?
-    purchase_quantity = models.IntegerField(_('quantity (buy)'))
-    purchase_price = models.FloatField(_('price (buy)'))
+    purchase_quantity = models.IntegerField(_('quantity (bought)'))
+    purchase_price = models.FloatField(_('price (bought)'))
 
     # Kuantiade nebe ita atou fa'an ohin
-    sale_quantity = models.IntegerField(_('quantity (sell)'))
-    sale_price = models.FloatField(_('price (sell)'))
+    sale_quantity = models.IntegerField(_('quantity (sold)'))
+    sale_price = models.FloatField(_('price (sold)'))
 
      # Distritu nebe mak kuda modo hirak ne'e
     district = models.CharField(_('District Origin'), max_length=128, choices=DISTRICTS)
@@ -122,7 +138,6 @@ class Commodity(models.Model):
 
     def __unicode__(self):
         return "%s (%s) - %s" % (self.vegetable, self.district, self.vendor_survey)
-
 
     @property
     def purchase_unit_price(self,):
@@ -174,8 +189,8 @@ class VendorSurvey(models.Model):
     # Vendor Number
     vendor = models.IntegerField(_('Vendor Number'))
 
-    # Season
-    season = models.ForeignKey(Season)
+    # Survey
+    survey = models.ForeignKey(Survey)
 
     # Wainhira ita sosa modo, ita tenki selu keda ka fa'an tiha maka selu
     payment_timing = models.CharField(max_length=128, choices=PAYMENT_TIMING_CHOICES)
@@ -197,4 +212,4 @@ class VendorSurvey(models.Model):
         verbose_name_plural = _('Vendors')
 
     def __unicode__(self):
-        return "%s %s %s" % (self.vendor, self.marketplace, self.season)
+        return "%s %s %s" % (self.vendor, self.marketplace, self.survey)
