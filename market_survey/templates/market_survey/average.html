@@ -1,11 +1,15 @@
-{% extends "admin/base_site.html" %}
+{% extends 'admin/base_site.html' %}
 {% load i18n humanize %}
 
+
 {% block extrastyle %}
-<style>
-p {padding: 5px;}
-</style>
+    <style>
+        p {padding: 5px;}
+    </style>
+    <script type="text/javascript" src="/static/js/jquery-1.8.1.min.js"></script> 
+    <script src="/static/js/jquery.tablesorter.js"></script>
 {% endblock %}
+
 
 {% block content %}
     <form action="" method="get">
@@ -45,29 +49,43 @@ p {padding: 5px;}
     <hr>
     <div>
         <h2> {% trans 'Detail' %} </h2>
-        <table>
-            <tr>
-                <td>{% trans 'Vendor' %}</td>
-                <td>{% trans 'Vegetable' %}</td>
-                <td>{% trans 'Purchase Price' %}</td>
-                <td>{% trans 'Purchase Quantity' %}</td>
-                <td>{% trans 'Sale Price' %}</td>
-                <td>{% trans 'Sale Quantity' %}</td>
-                <td>{% trans 'District Origin' %}</td>
-                <td>{% trans 'Profit Margin' %}</td>
-            </tr>
-        {% for obj in filter %}
-            <tr>
-                <td> {{ obj.vendor_survey}} </td>
-                <td> {{ obj.vegetable }} </td>
-                <td> ${{ obj.purchase_price|floatformat:2 }} </td>
-                <td> {{ obj.purchase_quantity }} </td>
-                <td> ${{ obj.sale_price|floatformat:2 }} </td>
-                <td> {{ obj.sale_quantity }} </td>
-                <td> {{ obj.district }} </td>
-                <td> {{ obj.profit_margin }}% </td>
-            </tr>
-        {% endfor %}
+
+        <script>
+            $(document).ready(function() 
+                { 
+                    $("#sort_table").tablesorter({sortList: [[0,1]]}); 
+                } 
+            ); 
+        </script>
+        <table class='sort_table' id='sort_table'>
+            <thead>
+                <tr>
+                    <th>{% trans 'Vendor' %}</th>
+                    <th>{% trans 'Vegetable' %}</th>
+                    <th>{% trans 'Purchase Price' %}</th>
+                    <th>{% trans 'Purchase Quantity' %}</th>
+                    <th>{% trans 'Sale Price' %}</th>
+                    <th>{% trans 'Sale Quantity' %}</th>
+                    <th>{% trans 'District Origin' %}</th>
+                    <th>{% trans 'Profit Margin' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for obj in filter %}
+                <tr>
+                    <td> {{ obj.vendor_survey}} </td>
+                    <td> {{ obj.vegetable }} </td>
+                    <td> ${{ obj.purchase_price|floatformat:2 }} </td>
+                    <td> {{ obj.purchase_quantity }} </td>
+                    <td> ${{ obj.sale_price|floatformat:2 }} </td>
+                    <td> {{ obj.sale_quantity }} </td>
+                    <td> {{ obj.district }} </td>
+                    <td> {{ obj.profit_margin }}% </td>
+                </tr>
+            {% endfor %}
+            </tbody>
         </table>
     </div>
+
 {% endblock %}
+

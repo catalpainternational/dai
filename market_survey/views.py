@@ -16,7 +16,6 @@ def product_list(request):
     return render_to_response('market_survey/filter.html', {'filter': filter})
 
 
-
 def avg_product_list(request):
     filter = CommodityFilter(request.GET, queryset=Commodity.objects.all())
     # print filter.__dict__
@@ -36,8 +35,7 @@ def avg_product_list(request):
 
     unit_dollars_sold = None
     if total_dollars_sold > 0:
-      unit_dollars_sold = total_units_sold / total_dollars_sold
-
+        unit_dollars_sold = total_units_sold / total_dollars_sold
 
     avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
     avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -46,7 +44,8 @@ def avg_product_list(request):
     if avg_purchase > 0:
         profit_margin = int((avg_sale - avg_purchase) / avg_purchase * 100)
 
-    return render_to_response('market_survey/average.html', {'filter': filter,
+    return render_to_response('market_survey/average.html', 
+                              {'filter': filter,
                               'total_units_bought': total_units_bought,
                               'total_dollars_bought': total_dollars_bought,
                               'unit_dollars_bought': unit_dollars_bought,
