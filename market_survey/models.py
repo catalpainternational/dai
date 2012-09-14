@@ -75,6 +75,7 @@ class VegetableWeight(models.Model):
     class Meta:
         verbose_name = _('Average Vegetable Weight')
         verbose_name_plural = _('Average Vegetable Weights')
+        unique_together = (("survey", "vegetable"),)
 
     def __unicode__(self,):
         return u"%s (%s)" % (self.vegetable, self.survey)
@@ -210,6 +211,8 @@ class VendorSurvey(models.Model):
     class Meta:
         verbose_name = _('Vendor')
         verbose_name_plural = _('Vendors')
+        unique_together = (("vendor", "marketplace"),)
+
 
     def __unicode__(self):
         return "%s %s %s" % (self.vendor, self.marketplace, self.survey)
