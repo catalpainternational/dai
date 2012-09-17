@@ -18,7 +18,8 @@
     </form>
     <hr>
     <div>
-     <h2>{% trans "Summary"%}</h2>
+      <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
+      <h2>{% trans "Summary"%}</h2>
      <table>
         <tr>
             <td> {% trans 'Total Units bought' %} </td>
@@ -60,27 +61,31 @@
         <table class='sort_table' id='sort_table'>
             <thead>
                 <tr>
-                    <th>{% trans 'Vendor' %}</th>
-                    <th>{% trans 'Vegetable' %}</th>
-                    <th>{% trans 'Purchase Price' %}</th>
-                    <th>{% trans 'Purchase Quantity' %}</th>
-                    <th>{% trans 'Sale Price' %}</th>
-                    <th>{% trans 'Sale Quantity' %}</th>
-                    <th>{% trans 'District Origin' %}</th>
-                    <th>{% trans 'Profit Margin' %}</th>
+                  <td>{% trans 'Vendor' %}</td>
+                  <td>{% trans 'Vegetable' %}</td>
+                  <td>{% trans 'Purchase Price' %}</td>
+                  <td>{% trans 'Purchase Quantity' %}</td>
+                  <td>{% trans 'Purchase Unit Price' %}</td>
+                  <td>{% trans 'Sale Price' %}</td>
+                  <td>{% trans 'Sale Quantity' %}</td>
+                  <td>{% trans 'Sale Unit Price' %}</td>
+                  <td>{% trans 'District Origin' %}</td>
+                  <td>{% trans 'Profit Margin' %}</td>
                 </tr>
             </thead>
             <tbody>
             {% for obj in filter %}
                 <tr>
-                    <td> {{ obj.vendor_survey}} </td>
-                    <td> {{ obj.vegetable }} </td>
-                    <td> ${{ obj.purchase_price|floatformat:2 }} </td>
-                    <td> {{ obj.purchase_quantity }} </td>
-                    <td> ${{ obj.sale_price|floatformat:2 }} </td>
-                    <td> {{ obj.sale_quantity }} </td>
-                    <td> {{ obj.district }} </td>
-                    <td> {{ obj.profit_margin }}% </td>
+                  <td> {{ obj.vendor_survey}} </td>
+                  <td> {{ obj.vegetable }} </td>
+                  <td> ${{ obj.purchase_price|floatformat:2 }} </td>
+                  <td> {{ obj.purchase_quantity }} </td>
+                  <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
+                  <td> ${{ obj.sale_price|floatformat:2 }} </td>              
+                  <td> {{ obj.sale_quantity }} </td>
+                  <td> ${{ obj.sale_unit_price|floatformat:2 }} </td>              
+                  <td> {{ obj.district }} </td>
+                  <td> {{ obj.profit_margin }}% </td>
                 </tr>
             {% endfor %}
             </tbody>

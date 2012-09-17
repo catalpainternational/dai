@@ -14,7 +14,7 @@ p {padding: 5px;}
     </form>
     <hr>
     <div>
-      <a href="?{{querystring}}&CSV=True"> Export results as CSV </a>
+      <a href="?{{querystring}}&CSV=True">{% trans "Export as CSV" %}</a>
         <table>
             <tr>
                 <td>{% trans 'Vendor' %}</td>
@@ -27,7 +27,6 @@ p {padding: 5px;}
                 <td>{% trans 'Sale Unit Price' %}</td>
                 <td>{% trans 'District Origin' %}</td>
                 <td>{% trans 'Profit Margin' %}</td>
-
             </tr>
         {% for obj in filter %}
             <tr>
