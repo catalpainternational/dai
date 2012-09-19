@@ -146,14 +146,14 @@
 {% block content %}
     <div class="container">
         <div class="thumbnail manage">
-            <h2 id="brand">Market Monitoring Database</h2>
-            <a href='/summary/' class="icon-file"><h3> Explore </h3></a>
+            <h2 id="brand">{% trans 'Market Monitoring Database' %}</h2>
+            <a href='/summary/' class="icon-file"><h3>{% trans 'Explore' %}</h3></a>
                              
         </div> 
         <div class="thumbnail explore">
-             <a href='/market_survey/' class="icon-edit"><h3> Manage </h3></a>
-             <p id="sponsor-text">Supported by<img id='sponsor-logo' src='/static/images/usaid.png'></p>
-             <p id="developers-credit">Software designed and developed by Catalpa International</p>
+             <a href='/market_survey/' class="icon-edit"><h3>{% trans 'Manage' %} </h3></a>
+             <p id="sponsor-text">{% trans 'Supported by ' %}<img id='sponsor-logo' src='/static/images/usaid.png'></p>
+             <p id="developers-credit">{% trans 'Software designed and developed by Catalpa International' %}</p>
               <img id='madeintl' src='/static/images/catalpa_logo.png'>  
         </div>
         

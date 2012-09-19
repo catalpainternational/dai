@@ -1,0 +1,345 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-19 01:49-0500\n"
+"PO-Revision-Date: 2012-09-19 02:08\n"
+"Last-Translator:   <a@fo.ho>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"X-Translated-Using: django-rosetta 0.6.8\n"
+
+#: filters.py:28
+msgid "All Surveys"
+msgstr ""
+
+#: models.py:35 models.py:194
+msgid "Survey"
+msgstr ""
+
+#: models.py:36
+msgid "Surveys"
+msgstr ""
+
+#: models.py:48 models.py:209
+msgid "Marketplace"
+msgstr "Merkadu"
+
+#: models.py:49
+msgid "Marketplaces"
+msgstr "Merkadu sira"
+
+#: models.py:62 models.py:117 views.py:128
+#: templates/market_survey/average.html:127
+#: templates/market_survey/filter.html:27
+msgid "Vegetable"
+msgstr "Modo"
+
+#: models.py:63
+msgid "Vegetables"
+msgstr "Modo sira"
+
+#: models.py:76
+msgid "Average Vegetable Weight"
+msgstr "Modo todan (média)"
+
+#: models.py:77
+msgid "Average Vegetable Weights"
+msgstr "Modo todan (média)"
+
+#: models.py:102
+msgid "Langganan"
+msgstr ""
+
+#: models.py:103
+msgid "Modo resin"
+msgstr ""
+
+#: models.py:104
+msgid "Komersiante Individual"
+msgstr ""
+
+#: models.py:105
+msgid "Membru Grupu sosa hamutuk"
+msgstr ""
+
+#: models.py:106
+msgid "Ba distritu ida idak hodi sosa rasik"
+msgstr ""
+
+#: models.py:107
+msgid "Halo kontratu ho Agrikultor"
+msgstr ""
+
+#: models.py:108
+msgid "Produs rasik"
+msgstr ""
+
+#: models.py:114
+msgid "Vendor survey"
+msgstr ""
+
+#: models.py:120
+msgid "Seasonal Shorage"
+msgstr "Menus iha tempu balun?"
+
+#: models.py:123
+msgid "Puchase Arrangement"
+msgstr "Oin sa ita hetan modo hirak ne'e?"
+
+#: models.py:126
+msgid "quantity (bought)"
+msgstr "Unidade (sosa)"
+
+#: models.py:127
+msgid "price (bought)"
+msgstr "Folin (sosa)"
+
+#: models.py:130
+msgid "quantity (sold)"
+msgstr "Unidade (fa'an)"
+
+#: models.py:131
+msgid "price (sold)"
+msgstr "Folin (fa'an)"
+
+#: models.py:134 views.py:135 templates/market_survey/average.html:134
+#: templates/market_survey/filter.html:34
+msgid "District Origin"
+msgstr "Distritu"
+
+#: models.py:137
+msgid "Commodity"
+msgstr "Modo"
+
+#: models.py:138
+msgid "Commodities"
+msgstr "Modo"
+
+#: models.py:165
+msgid "Selu kedas"
+msgstr ""
+
+#: models.py:166
+msgid "Depois maka selu"
+msgstr ""
+
+#: models.py:177
+msgid "Less than 20"
+msgstr "Menus 20"
+
+#: models.py:178
+msgid "20 - 50"
+msgstr ""
+
+#: models.py:179
+msgid "50 years or more"
+msgstr "50 anos liu"
+
+#: models.py:183
+msgid "Male"
+msgstr "Mane"
+
+#: models.py:184
+msgid "Female"
+msgstr "Feto"
+
+#: models.py:191
+msgid "Vendor Number"
+msgstr "Vendedor nia numeru"
+
+#: models.py:197
+msgid "Payment timing"
+msgstr "Wainhira ita sosa modo"
+
+#: models.py:200
+msgid "Payment amount"
+msgstr "Gasta osan hira hodi sosa modo"
+
+#: models.py:203
+msgid "Age range"
+msgstr "Idade"
+
+#: models.py:206
+msgid "Sex"
+msgstr "Sexu"
+
+#: models.py:212 views.py:127 templates/market_survey/average.html:126
+#: templates/market_survey/filter.html:26
+msgid "Vendor"
+msgstr "Vendedor"
+
+#: models.py:213
+msgid "Vendors"
+msgstr "Vendedores"
+
+#: views.py:99
+msgid "Filtered data summary"
+msgstr "Sumario dadus"
+
+#: views.py:102 templates/market_survey/average.html:86
+msgid "Total Units bought"
+msgstr "Total unidade nebe sosa"
+
+#: views.py:103 templates/market_survey/average.html:87
+msgid "Total $ bought"
+msgstr "Total sosa wainhira fa'an"
+
+#: views.py:104 templates/market_survey/average.html:88
+msgid "Units $ bought"
+msgstr "Folin unidade wainhira sosa"
+
+#: views.py:105 templates/market_survey/average.html:90
+msgid "Total $ sold"
+msgstr "Total unidade fa'an"
+
+#: views.py:106 templates/market_survey/average.html:91
+msgid "Total Units sold"
+msgstr "Total unidade fa'an"
+
+#: views.py:107 templates/market_survey/average.html:92
+msgid "Units $ sold"
+msgstr "Folin unidade fa'an"
+
+#: views.py:108 templates/market_survey/average.html:94
+msgid "Average Purchase"
+msgstr "Média Sosa"
+
+#: views.py:109 templates/market_survey/average.html:95
+msgid "Average Sale"
+msgstr "Média Fa'an"
+
+#: views.py:110 views.py:136 templates/market_survey/average.html:96
+#: templates/market_survey/average.html:135
+#: templates/market_survey/filter.html:35
+msgid "Profit Margin"
+msgstr ""
+
+#: views.py:125
+msgid "Filtered data"
+msgstr ""
+
+#: views.py:129 templates/market_survey/average.html:128
+#: templates/market_survey/filter.html:28
+msgid "Purchase Price"
+msgstr "Folin (sosa)"
+
+#: views.py:130 templates/market_survey/average.html:129
+#: templates/market_survey/filter.html:29
+msgid "Purchase Quantity"
+msgstr "Unidade (sosa)"
+
+#: views.py:131 templates/market_survey/average.html:130
+#: templates/market_survey/filter.html:30
+msgid "Purchase Unit Price"
+msgstr "Folin tuir Unidade (sosa)"
+
+#: views.py:132 templates/market_survey/average.html:131
+#: templates/market_survey/filter.html:31
+msgid "Sale Price"
+msgstr "Folin (fa'an)"
+
+#: views.py:133 templates/market_survey/average.html:132
+#: templates/market_survey/filter.html:32
+msgid "Sale Quantity"
+msgstr "Folin (fa'an)"
+
+#: views.py:134 templates/market_survey/average.html:133
+#: templates/market_survey/filter.html:33
+msgid "Sale Unit Price"
+msgstr "Folin tuir Unidade (fa'an)"
+
+#: templates/admin/app_index.html:43 templates/admin/change_form.html:131
+#: templates/admin/change_list.html:145
+msgid "Home"
+msgstr "Uma"
+
+#: templates/admin/app_index.html:45
+#, python-format
+msgid "<li>%(name)s</li>"
+msgstr ""
+
+#: templates/admin/app_index.html:62 templates/admin/change_form.html:134
+msgid "Add"
+msgstr "Aumenta"
+
+#: templates/admin/app_index.html:63
+msgid "Change"
+msgstr "Troka"
+
+#: templates/admin/app_index.html:70
+msgid "You don´t have permission to edit anything."
+msgstr ""
+
+#: templates/admin/change_form.html:145
+msgid "History"
+msgstr ""
+
+#: templates/admin/change_form.html:146
+msgid "View on site"
+msgstr ""
+
+#: templates/admin/change_form.html:164 templates/admin/change_list.html:225
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Favor hadia failansu sira nebe iha okos"
+msgstr[1] "Favor hadia failansu nebe iha okos"
+
+#: templates/admin/change_list.html:162
+#, python-format
+msgid "Add %(name)s"
+msgstr "Aumenta %(name)s"
+
+#: templates/admin/change_list.html:191
+msgid "Filter"
+msgstr ""
+
+#: templates/market_survey/average.html:81
+msgid "Export summary & details as CSV"
+msgstr "Rai dadus iha format CSV"
+
+#: templates/market_survey/average.html:82
+msgid "Summary"
+msgstr "Sumario"
+
+#: templates/market_survey/average.html:89
+#: templates/market_survey/average.html:93
+msgid "Total units (gr)"
+msgstr ""
+
+#: templates/market_survey/average.html:114
+msgid "Detail"
+msgstr ""
+
+#: templates/market_survey/filter.html:22
+msgid "Export as CSV"
+msgstr "Rai dadus iha format CSV"
+
+#: templates/market_survey/index.html:149
+msgid "Market Monitoring Database"
+msgstr "Merkadu Monitorizasaun Base de Dadus "
+
+#: templates/market_survey/index.html:150
+msgid "Explore"
+msgstr ""
+
+#: templates/market_survey/index.html:154
+msgid "Manage"
+msgstr ""
+
+#: templates/market_survey/index.html:155
+msgid "Supported by "
+msgstr "Suporta husi"
+
+#: templates/market_survey/index.html:156
+msgid "Software designed and developed by Catalpa International"
+msgstr "Software dezenvolvementu husi Catalpa International"

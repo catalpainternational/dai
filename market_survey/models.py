@@ -194,16 +194,16 @@ class VendorSurvey(models.Model):
     survey = models.ForeignKey(Survey)
 
     # Wainhira ita sosa modo, ita tenki selu keda ka fa'an tiha maka selu
-    payment_timing = models.CharField(max_length=128, choices=PAYMENT_TIMING_CHOICES)
+    payment_timing = models.CharField(_('Payment timing'), max_length=128, choices=PAYMENT_TIMING_CHOICES)
 
     # Iha semana ida nia laran osan hira maka ita gasta hodi sosa modo (mais ou menus)
-    payment_amount = models.CharField(max_length=128, choices=PAYMENT_AMOUNT_CHOICES)
+    payment_amount = models.CharField(_('Payment amount'), max_length=128, choices=PAYMENT_AMOUNT_CHOICES)
 
     # Idade
-    age_range = models.CharField(max_length=128, choices=AGE_RANGE_CHOICES)
+    age_range = models.CharField(_('Age range'), max_length=128, choices=AGE_RANGE_CHOICES)
 
     # Sexu
-    sex = models.CharField(max_length=128, choices=GENDER)
+    sex = models.CharField(_('Sex'), max_length=128, choices=GENDER)
 
     # market place
     marketplace = models.ForeignKey(Marketplace)
