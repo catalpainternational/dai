@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.db.models import Avg, Sum
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse
+from django.template.context import RequestContext
 
 from models import Commodity
 from filters import CommodityFilter
@@ -12,7 +13,7 @@ from filters import CommodityFilter
 
 
 def index(request):
-    return render_to_response('market_survey/index.html')
+    return render_to_response('market_survey/index.html', context_instance = RequestContext(request))
 
 
 def product_list(request):

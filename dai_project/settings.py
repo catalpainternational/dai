@@ -11,7 +11,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-GRAPPELLI_ADMIN_TITLE = u"Market Survey"
+_ = lambda s: s
+
+GRAPPELLI_ADMIN_TITLE = _(u"Market Survey")
 
 DATABASES = {
     'default': {
@@ -35,7 +37,18 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'tet'
+
+LANGUAGES = (
+    ('en', 'English'),
+    ('tet', 'Tetun'),
+    )
+
+
+LOCALE_INDEPENDENT_PATHS = (
+    '^/static/',
+    '^/media/',
+)
 
 SITE_ID = 1
 
@@ -94,10 +107,22 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    'django.core.context_processors.request',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'localeurl.middleware.LocaleURLMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
@@ -114,9 +139,15 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     #os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+
 )
 
 INSTALLED_APPS = (
+
+    # Catalpa
+    'market_survey',
+
+    # Standard apps
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -133,9 +164,8 @@ INSTALLED_APPS = (
     'django_nose',
     'django_extensions',
     'django_filters',
-
-    # Catalpa
-    'market_survey',
+    'rosetta',
+    'localeurl',
 )
 
 # A sample logging configuration. The only tangible logging
