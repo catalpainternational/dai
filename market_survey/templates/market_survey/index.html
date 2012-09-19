@@ -1,14 +1,161 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
 
+
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet" href="/static/css/font-awesome.css" />
+        
+    <style>
+    
+        body {
+            background: url(/static/images/header-bg.png) repeat-x #eaeaea;
+             font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+               font-size: 13px;
+             font-weight: normal;
+             line-height: 18px;
+             margin: 0px;
+        }
+        
+        
+        h2#brand {
+            position: relative;
+            width: 500px;
+            font-size: 35px;
+            top: -150px;
+            left: -85px;
+            color: #fff;
+            text-shadow: 0px 1px 1px #4d4d4d;
+        }
+        
+        
+        div.thumbnail {
+            width: 400px;
+            height: 200px;
+            position: relative;
+            top: 150px;
+            padding: 30px 30px 38px;
+            background-color: #f6f6f5;
+            -moz-box-shadow: 0 0 8px #676762;
+            -webkit-box-shadow: 0 0 8px #676762;
+            box-shadow: 0 0 8px #676762;
+            margin:0px auto;
+            
+        }
+        .thumbnail {
+          display: block;
+          padding: 4px;
+          line-height: 1;
+          border: 1px solid #ddd;
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          border-radius: 4px;
+          -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+          -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+        }
+        a.thumbnail:hover {
+          border-color: #0088cc;
+          -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+          -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+          box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+        }
+        
+        
+        img#sponsor-logo {
+            position: relative;
+            left: 10px;
+            top: 35px;
+        }
+        
+        #logo-centre p {
+            position: relative;
+            bottom: 11px;
+        }
+        
+        
+        p#developers-credit {
+            color: #787875;
+            position: relative;
+            width: 400px;
+            top: 10px;
+            left: -200px;
+            font-size: 12px;
+        
+        }
+        
+        p#sponsor-text {
+            position: relative;
+            width: 400px;
+            top: -30px;
+            left: -180px;
+            color: #787875;
+        }
+        
+        div.thumbnail.manage {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            right: 80px;
+            
+        }
+        
+        div.thumbnail.explore {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            left: 120px;
+            top: -21px;
+        }
+        
+        a { text-decoration: none; }
+        
+        a.icon-file {
+            font-size: 72px;
+            color: #4e4e4c;
+            padding-left: 28px;
+            position: relative;
+            top: -30px;
+        }
+        
+        
+        a.icon-edit {
+            font-size: 65px;
+            color: #4e4e4c;
+            padding-left: 22px;
+        }
+        
+        h3 {
+            color: #4e4e4c;
+            position: relative;
+            top: -5px;
+            font-size: 20px;
+            left: px;
+            text-align: center;
+        }
+        
+        #madeintl{
+            position: relative;
+            top: 20px;
+            left: -100px;
+        }
+        
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 {% block content %}
-    {% block object-tools %}{% endblock %}
-    <div>
-      <ul>
-    	<li><a href='{% url filtering %}'><i>General Filtering</i></a></li>
-    	<li><a href='{% url summary %}'><i>Filterable Summary</i></a></li>
-        <li><i>Filterable Origins</i> ?</li>
-        <li><i>Filterable Totals</i> ?</li>
-      </ul>
-    </div>
+    <div class="container">
+        <div class="thumbnail manage">
+            <h2 id="brand">Market Monitoring Database</h2>
+            <a href='/summary/' class="icon-file"><h3> Explore </h3></a>
+                             
+        </div> 
+        <div class="thumbnail explore">
+             <a href='/market_survey/' class="icon-edit"><h3> Manage </h3></a>
+             <p id="sponsor-text">Supported by<img id='sponsor-logo' src='/static/images/usaid.png'></p>
+             <p id="developers-credit">Software designed and developed by Catalpa International</p>
+              <img id='madeintl' src='/static/images/catalpa_logo.png'>  
+        </div>
+        
+    </div>    
 {% endblock %}

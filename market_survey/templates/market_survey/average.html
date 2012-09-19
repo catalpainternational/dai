@@ -2,11 +2,42 @@
 {% load i18n humanize %}
 
 {% block extrastyle %}
-    <style>
+  {{ super.block }}
+   <style>
+      body {
+            background: url(/static/images/header-bg.png) repeat-x #eaeaea;
+            font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 18px;
+            margin: 0px;
+      }
 
-      table { width: 90%; }
+      table { 
+          width: 90%;
+          background: #fff;
+      }
 
-      form { padding-bottom: 10pt;}
+      th, td { color: #000; }
+
+      .results_container {
+        margin-left: 50px;
+
+      }
+
+      form { padding-bottom: 10pt;
+            -moz-box-shadow: 0 0 8px #676762;
+            -webkit-box-shadow: 0 0 8px #676762;
+            box-shadow: 0 0 8px #676762;
+            padding:20px;
+            margin-left:250px;
+            padding-left:70px;
+            background-color: #f6f6f5;
+            width: 400px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;  
+      }
 
       form ul { list-style-type:none; }
 
@@ -17,14 +48,21 @@
               font-size: 14pt;
               margin-bottom: 10pt;
       }
+
+      input{
+              position: relative;
+              left: 285px;
+      }
   
-      select { width: 150pt; }
+      select { width: 250pt; }
+
       select[multiple="multiple"] { height: 60pt; }
 
     </style>
 {% endblock %}
 
 {% block extrahead %}
+    {{ super.block }}
     <script type="text/javascript" src="/static/js/jquery-1.8.1.min.js"></script> 
     <script src="/static/js/jquery.tablesorter.js"></script>
 {% endblock %}
@@ -39,7 +77,7 @@
       </form>
     </div>
     <hr>
-    <div id='results_section'>
+    <div id='results_section' class="results_container">
       <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
       <h2>{% trans "Summary"%}</h2>
      <table>
@@ -72,7 +110,7 @@
      </table>
     </div>
     <hr>
-    <div>
+    <div class="results_container">
         <h2> {% trans 'Detail' %} </h2>
 
         <script>
