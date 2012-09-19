@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-19 01:49-0500\n"
-"PO-Revision-Date: 2012-09-19 02:08\n"
+"PO-Revision-Date: 2012-09-19 02:11\n"
 "Last-Translator:   <a@fo.ho>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -326,7 +326,7 @@ msgstr "Rai dadus iha format CSV"
 
 #: templates/market_survey/index.html:149
 msgid "Market Monitoring Database"
-msgstr "Merkadu Monitorizasaun Base de Dadus "
+msgstr "Merkadu Base de Dadus "
 
 #: templates/market_survey/index.html:150
 msgid "Explore"
