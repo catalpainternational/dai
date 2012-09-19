@@ -16,7 +16,7 @@ class CommodityFilter(django_filters.FilterSet):
 
     class Meta:
         model = Commodity
-        fields = [ 'district', 'vendor_survey__survey']#'vegetable','vendor_survey__marketplace',
+        fields = ['vendor_survey__survey', 'vegetable', 'vendor_survey__marketplace', 'district',]
 
     def __init__(self, *args, **kwargs):
         super(CommodityFilter, self).__init__(*args, **kwargs)
