@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import IntegerField, FloatField
-from django.forms import TextInput
+from django.forms import TextInput, RadioSelect
 
 from market_survey import models
 
@@ -24,8 +24,8 @@ class VendorSurveyAdmin(admin.ModelAdmin):
         CommodityInline,
     ]
 
-    list_display = ['vendor', 'sex', 'age_range', 'marketplace', 'survey', 'payment_amount']
-    list_filter = ['sex', 'marketplace', 'survey', 'payment_amount', 'age_range']
+    list_display = ['vendor', 'sex', 'age_range', 'on_sell_to_others', 'marketplace', 'survey', 'payment_amount']
+    list_filter = ['sex', 'marketplace', 'survey', 'payment_amount', 'on_sell_to_others', 'age_range']
     search_fields = ['vendor', 'marketplace', 'marketplace__district', 'survey']
 
 

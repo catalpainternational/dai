@@ -199,6 +199,9 @@ class VendorSurvey(models.Model):
     # Iha semana ida nia laran osan hira maka ita gasta hodi sosa modo (mais ou menus)
     payment_amount = models.CharField(_('Payment amount'), max_length=128, choices=PAYMENT_AMOUNT_CHOICES)
 
+    # Ita fa'an mos ba vendedores seluk (fa'an ho gerobak ka vendedores seluk nebe fa'an haknaok)?
+    on_sell_to_others = models.NullBooleanField(_('On sell to other vendors'))
+
     # Idade
     age_range = models.CharField(_('Age range'), max_length=128, choices=AGE_RANGE_CHOICES)
 
