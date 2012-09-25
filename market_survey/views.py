@@ -13,7 +13,7 @@ from filters import CommodityFilter
 
 
 def index(request):
-    return render_to_response('market_survey/index.html', context_instance = RequestContext(request))
+    return render_to_response('market_survey/index.html', context_instance=RequestContext(request))
 
 
 def product_list(request):
@@ -23,10 +23,10 @@ def product_list(request):
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = 'attachment; filename=market_survey_filtered_%s.csv' % date.today().strftime('%Y_%m_%d')
 
-        response = export_as_csv(response,filter.qs)
+        response = export_as_csv(response, filter.qs)
         return response
 
-    return render_to_response('market_survey/filter.html', {'filter': filter, 'querystring':request.META['QUERY_STRING']})
+    return render_to_response('market_survey/filter.html', {'filter': filter, 'querystring': request.META['QUERY_STRING']}, context_instance=RequestContext(request))
 
 
 def avg_product_list(request):
@@ -89,7 +89,8 @@ def avg_product_list(request):
                               'avg_sale': avg_sale,
                               'avg_purchase': avg_purchase,
                               'profit_margin': profit_margin,
-                               'querystring':request.META['QUERY_STRING']                              })
+                              'querystring': request.META['QUERY_STRING']},
+                              context_instance=RequestContext(request))
 
 
 

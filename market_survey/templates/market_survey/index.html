@@ -20,10 +20,10 @@
         
         h2#brand {
             position: relative;
-            width: 500px;
-            font-size: 35px;
+            width: 600px;
+            font-size: 32px;
             top: -150px;
-            left: -85px;
+            left: -120px;
             color: #fff;
             text-shadow: 0px 1px 1px #4d4d4d;
         }
@@ -64,8 +64,8 @@
         
         img#sponsor-logo {
             position: relative;
-            left: 10px;
-            top: 35px;
+            left: 80px;
+            top: -5px;
         }
         
         #logo-centre p {
@@ -87,8 +87,8 @@
         p#sponsor-text {
             position: relative;
             width: 400px;
-            top: -30px;
-            left: -180px;
+            top: 20px;
+            left: -220px;
             color: #787875;
         }
         
@@ -149,13 +149,13 @@
 
     <div class="container">
         <div class="thumbnail manage">
-            <h2 id="brand">{% trans 'Market Monitoring Database' %}</h2>
+            <h2 id="brand">{% trans 'Base de Dadus husi Survey Merkadu' %}</h2>
             <a href='/summary/' class="icon-file"><h3>{% trans 'Explore' %}</h3></a>
                              
         </div> 
         <div class="thumbnail explore">
              <a href='/market_survey/' class="icon-edit"><h3>{% trans 'Manage' %} </h3></a>
-             <p id="sponsor-text">{% trans 'Supported by ' %}<img id='sponsor-logo' src='/static/images/usaid.png'></p>
+             <p id="sponsor-text">{% trans 'Supported by USAID - DAC (Dezenvolve Agricultura Comunitária)' %}<img id='sponsor-logo' src='/static/images/usaid.png'></p>
              <p id="developers-credit">{% trans 'Software designed and developed by Catalpa International' %}</p>
               <img id='madeintl' src='/static/images/catalpa_logo.png'>  
         </div>

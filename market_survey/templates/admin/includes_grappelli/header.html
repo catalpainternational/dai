@@ -24,10 +24,6 @@
                         <li><a href="{{ root_path }}logout/">
                     {% endif %}
                     {% trans 'Log out' %}</a></li>
-                    <li>
-                        <a href="{{ request.path|chlocale:'tet' }}">Tetun</a>
-                        <a href="{{ request.path|chlocale:'en' }}">English</a>
-                    </li>
                 </ul>
             </li>
             <!-- Userlinks -->
@@ -46,6 +42,10 @@
         </ul>
     {% endif %}
     {% block nav-global %}
+        <div style="float: right; margin-top: 10px;">
+            <a href="{{ request.path|chlocale:'tet' }}">Tetun</a> |
+            <a href="{{ request.path|chlocale:'en' }}">English</a>
+        </div>
     {% endblock %}
 </div>
 
