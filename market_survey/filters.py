@@ -6,9 +6,9 @@ from models import Commodity, Vegetable, Marketplace, DISTRICTS
 
 class CommodityFilter(django_filters.FilterSet):
     #purchase_price = django_filters.NumberFilter(lookup_type=['lte', 'gte', 'exact'])
-    vegetable = django_filters.ModelMultipleChoiceFilter(queryset=Vegetable.objects.all())
-    vendor_survey__marketplace = django_filters.ModelMultipleChoiceFilter(queryset=Marketplace.objects.all())
-    district = django_filters.MultipleChoiceFilter(choices=DISTRICTS)
+    vegetable = django_filters.ModelMultipleChoiceFilter(label=_('Vegetable'), queryset=Vegetable.objects.all())
+    vendor_survey__marketplace = django_filters.ModelMultipleChoiceFilter(label=_('Marketplace'), queryset=Marketplace.objects.all())
+    district = django_filters.MultipleChoiceFilter(label=_('District'), choices=DISTRICTS)
     # Anders' code
     #vegetable = django_filters.MultipleChoiceFilter(choices=Vegetable.objects.all().values_list('pk', 'name'))
     # vendor_survey__marketplace = django_filters.MultipleChoiceFilter(choices=Marketplace.objects.all().values_list('pk','name'))
@@ -25,4 +25,4 @@ class CommodityFilter(django_filters.FilterSet):
         # self.filters['vendor_survey__marketplace'].extra.update(
         #     {'empty_label': _(u'All Marketplaces')})
         self.filters['vendor_survey__survey'].extra.update(
-            {'empty_label': _(u'All Surveys')})
+            {'empty_label': _('All Surveys')})

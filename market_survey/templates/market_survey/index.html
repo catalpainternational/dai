@@ -20,10 +20,11 @@
         
         h2#brand {
             position: relative;
-            width: 600px;
+            width: 100%;
+            margin-top: 20px;
             font-size: 32px;
-            top: -150px;
-            left: -120px;
+            line-height: 35px;
+            text-align: center;
             color: #fff;
             text-shadow: 0px 1px 1px #4d4d4d;
         }
@@ -115,7 +116,7 @@
             color: #4e4e4c;
             padding-left: 28px;
             position: relative;
-            top: -30px;
+            top: -8px;
         }
         
         
@@ -148,10 +149,11 @@
 {% block content %}
 
     <div class="container">
+        <div>
+            <h2 id="brand">{% trans 'Market Survey Database' %}</h2>
+        </div>
         <div class="thumbnail manage">
-            <h2 id="brand">{% trans 'Base de Dadus husi Survey Merkadu' %}</h2>
-            <a href='/summary/' class="icon-file"><h3>{% trans 'Explore' %}</h3></a>
-                             
+            <a href='/summary/' class="icon-file"><h3>{% trans 'Explore' %}</h3></a>                   
         </div> 
         <div class="thumbnail explore">
              <a href='/market_survey/' class="icon-edit"><h3>{% trans 'Manage' %} </h3></a>
