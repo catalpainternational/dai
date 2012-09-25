@@ -1,0 +1,862 @@
+[
+    {
+        "fields": {
+            "app_label": "market_survey",
+            "model": "vegetableweight",
+            "name": "Average Vegetable Weight"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "app_label": "market_survey",
+            "model": "commodity",
+            "name": "Commodity"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "app_label": "market_survey",
+            "model": "marketplace",
+            "name": "Marketplace"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "app_label": "market_survey",
+            "model": "survey",
+            "name": "Survey"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "app_label": "market_survey",
+            "model": "vegetable",
+            "name": "Vegetable"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "app_label": "market_survey",
+            "model": "vendorsurvey",
+            "name": "Vendor"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype",
+            "name": "content type"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "app_label": "auth",
+            "model": "group",
+            "name": "group"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry",
+            "name": "log entry"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "app_label": "auth",
+            "model": "permission",
+            "name": "permission"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "app_label": "sessions",
+            "model": "session",
+            "name": "session"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "app_label": "sites",
+            "model": "site",
+            "name": "site"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "app_label": "auth",
+            "model": "user",
+            "name": "user"
+        },
+        "model": "contenttypes.contenttype",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "expire_date": "2012-09-28T01:18:09.566Z",
+            "session_data": "MWFlYmQxOGM2YjYyMGFiMzI1NDdlYTM3MWUxYjA5OTE2ZTFkMjg4NDqAAn1xAShVEl9hdXRoX3Vz\nZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED\nVQ1fYXV0aF91c2VyX2lkcQRLAXUu\n"
+        },
+        "model": "sessions.session",
+        "pk": "f5923a7cfc8b12e97fb4e5cfd8bc8871"
+    },
+    {
+        "fields": {
+            "domain": "example.com",
+            "name": "example.com"
+        },
+        "model": "sites.site",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "month": 1,
+            "name": "Wet Season",
+            "uuid": "8d46672e-fe0a-11e1-8cc0-58b035fab5b3",
+            "year": 2011
+        },
+        "model": "market_survey.survey",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "district": "Dili",
+            "name": "Comoro",
+            "uuid": "4ca37087-fe0a-11e1-bc5d-58b035fab5b3"
+        },
+        "model": "market_survey.marketplace",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "district": "Dili",
+            "name": "Taibessi",
+            "uuid": "50f5db35-fe0a-11e1-8724-58b035fab5b3"
+        },
+        "model": "market_survey.marketplace",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "district": "Dili",
+            "name": "Tasi Ibun",
+            "uuid": "5864cd28-fe0a-11e1-a4ca-58b035fab5b3"
+        },
+        "model": "market_survey.marketplace",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "description": "",
+            "name": "Ai-ata",
+            "unit": "1 fuan",
+            "uuid": "666ae363-fe0a-11e1-a450-58b035fab5b3"
+        },
+        "model": "market_survey.vegetable",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "description": "",
+            "name": "Aidila tahan",
+            "unit": "butuk 1",
+            "uuid": "6e6c674a-fe0a-11e1-b6f9-58b035fab5b3"
+        },
+        "model": "market_survey.vegetable",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "description": "",
+            "name": "Casava",
+            "unit": "fuan 1",
+            "uuid": "7a406adc-fe0a-11e1-826d-58b035fab5b3"
+        },
+        "model": "market_survey.vegetable",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "grams": 500,
+            "survey": 1,
+            "uuid": "919fb82b-fe0a-11e1-aed1-58b035fab5b3",
+            "vegetable": 2
+        },
+        "model": "market_survey.vegetableweight",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "grams": 50,
+            "survey": 1,
+            "uuid": "9771e599-fe0a-11e1-b79a-58b035fab5b3",
+            "vegetable": 1
+        },
+        "model": "market_survey.vegetableweight",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "grams": 88,
+            "survey": 1,
+            "uuid": "9d8fb7ca-fe0a-11e1-b9c8-58b035fab5b3",
+            "vegetable": 3
+        },
+        "model": "market_survey.vegetableweight",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "district": "Aileu",
+            "purchase_arrangement": "Langganan",
+            "purchase_price": 1.0,
+            "purchase_quantity": 1,
+            "sale_price": 2.0,
+            "sale_quantity": 1,
+            "seasonal_shortage": false,
+            "uuid": "5e589611-fe0f-11e1-bcc2-58b035fab5b3",
+            "vegetable": 2,
+            "vendor_survey": 1
+        },
+        "model": "market_survey.commodity",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "district": "Ainaro",
+            "purchase_arrangement": "Komersiante Individual",
+            "purchase_price": 1.0,
+            "purchase_quantity": 1,
+            "sale_price": 2.0,
+            "sale_quantity": 1,
+            "seasonal_shortage": false,
+            "uuid": "5e58b661-fe0f-11e1-bfe1-58b035fab5b3",
+            "vegetable": 1,
+            "vendor_survey": 1
+        },
+        "model": "market_survey.commodity",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "district": "Baucau",
+            "purchase_arrangement": "Komersiante Individual",
+            "purchase_price": 2.0,
+            "purchase_quantity": 2,
+            "sale_price": 2.0,
+            "sale_quantity": 2,
+            "seasonal_shortage": false,
+            "uuid": "90009259-fe0f-11e1-9381-58b035fab5b3",
+            "vegetable": 3,
+            "vendor_survey": 2
+        },
+        "model": "market_survey.commodity",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "district": "Oe-cussi",
+            "purchase_arrangement": "Ba distritu ida idak hodi sosa rasik",
+            "purchase_price": 2.0,
+            "purchase_quantity": 2,
+            "sale_price": 2.0,
+            "sale_quantity": 2,
+            "seasonal_shortage": false,
+            "uuid": "9000aba1-fe0f-11e1-b9fd-58b035fab5b3",
+            "vegetable": 2,
+            "vendor_survey": 2
+        },
+        "model": "market_survey.commodity",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "age_range": "20 - 50",
+            "marketplace": 2,
+            "payment_amount": "$51 - $200",
+            "payment_timing": "kedas",
+            "sex": "M",
+            "survey": 1,
+            "uuid": "5e53f52e-fe0f-11e1-9ef3-58b035fab5b3",
+            "vendor": 1
+        },
+        "model": "market_survey.vendorsurvey",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "age_range": "Less than 20",
+            "marketplace": 1,
+            "payment_amount": "$200 - $300",
+            "payment_timing": "kedas",
+            "sex": "F",
+            "survey": 1,
+            "uuid": "9000540c-fe0f-11e1-a061-58b035fab5b3",
+            "vendor": 2
+        },
+        "model": "market_survey.vendorsurvey",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "codename": "add_logentry",
+            "content_type": 7,
+            "name": "Can add log entry"
+        },
+        "model": "auth.permission",
+        "pk": 19
+    },
+    {
+        "fields": {
+            "codename": "change_logentry",
+            "content_type": 7,
+            "name": "Can change log entry"
+        },
+        "model": "auth.permission",
+        "pk": 20
+    },
+    {
+        "fields": {
+            "codename": "delete_logentry",
+            "content_type": 7,
+            "name": "Can delete log entry"
+        },
+        "model": "auth.permission",
+        "pk": 21
+    },
+    {
+        "fields": {
+            "codename": "add_group",
+            "content_type": 2,
+            "name": "Can add group"
+        },
+        "model": "auth.permission",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "codename": "change_group",
+            "content_type": 2,
+            "name": "Can change group"
+        },
+        "model": "auth.permission",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "codename": "delete_group",
+            "content_type": 2,
+            "name": "Can delete group"
+        },
+        "model": "auth.permission",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "codename": "add_permission",
+            "content_type": 1,
+            "name": "Can add permission"
+        },
+        "model": "auth.permission",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "codename": "change_permission",
+            "content_type": 1,
+            "name": "Can change permission"
+        },
+        "model": "auth.permission",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "codename": "delete_permission",
+            "content_type": 1,
+            "name": "Can delete permission"
+        },
+        "model": "auth.permission",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "codename": "add_user",
+            "content_type": 3,
+            "name": "Can add user"
+        },
+        "model": "auth.permission",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "codename": "change_user",
+            "content_type": 3,
+            "name": "Can change user"
+        },
+        "model": "auth.permission",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "codename": "delete_user",
+            "content_type": 3,
+            "name": "Can delete user"
+        },
+        "model": "auth.permission",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "codename": "add_contenttype",
+            "content_type": 4,
+            "name": "Can add content type"
+        },
+        "model": "auth.permission",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "codename": "change_contenttype",
+            "content_type": 4,
+            "name": "Can change content type"
+        },
+        "model": "auth.permission",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "codename": "delete_contenttype",
+            "content_type": 4,
+            "name": "Can delete content type"
+        },
+        "model": "auth.permission",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "codename": "add_commodity",
+            "content_type": 12,
+            "name": "Can add Commodity"
+        },
+        "model": "auth.permission",
+        "pk": 23
+    },
+    {
+        "fields": {
+            "codename": "change_commodity",
+            "content_type": 12,
+            "name": "Can change Commodity"
+        },
+        "model": "auth.permission",
+        "pk": 29
+    },
+    {
+        "fields": {
+            "codename": "delete_commodity",
+            "content_type": 12,
+            "name": "Can delete Commodity"
+        },
+        "model": "auth.permission",
+        "pk": 35
+    },
+    {
+        "fields": {
+            "codename": "add_marketplace",
+            "content_type": 9,
+            "name": "Can add Marketplace"
+        },
+        "model": "auth.permission",
+        "pk": 24
+    },
+    {
+        "fields": {
+            "codename": "change_marketplace",
+            "content_type": 9,
+            "name": "Can change Marketplace"
+        },
+        "model": "auth.permission",
+        "pk": 30
+    },
+    {
+        "fields": {
+            "codename": "delete_marketplace",
+            "content_type": 9,
+            "name": "Can delete Marketplace"
+        },
+        "model": "auth.permission",
+        "pk": 36
+    },
+    {
+        "fields": {
+            "codename": "add_survey",
+            "content_type": 8,
+            "name": "Can add Survey"
+        },
+        "model": "auth.permission",
+        "pk": 25
+    },
+    {
+        "fields": {
+            "codename": "change_survey",
+            "content_type": 8,
+            "name": "Can change Survey"
+        },
+        "model": "auth.permission",
+        "pk": 31
+    },
+    {
+        "fields": {
+            "codename": "delete_survey",
+            "content_type": 8,
+            "name": "Can delete Survey"
+        },
+        "model": "auth.permission",
+        "pk": 37
+    },
+    {
+        "fields": {
+            "codename": "add_vegetable",
+            "content_type": 10,
+            "name": "Can add Vegetable"
+        },
+        "model": "auth.permission",
+        "pk": 26
+    },
+    {
+        "fields": {
+            "codename": "change_vegetable",
+            "content_type": 10,
+            "name": "Can change Vegetable"
+        },
+        "model": "auth.permission",
+        "pk": 32
+    },
+    {
+        "fields": {
+            "codename": "delete_vegetable",
+            "content_type": 10,
+            "name": "Can delete Vegetable"
+        },
+        "model": "auth.permission",
+        "pk": 38
+    },
+    {
+        "fields": {
+            "codename": "add_vegetableweight",
+            "content_type": 11,
+            "name": "Can add Average Vegetable Weight"
+        },
+        "model": "auth.permission",
+        "pk": 22
+    },
+    {
+        "fields": {
+            "codename": "change_vegetableweight",
+            "content_type": 11,
+            "name": "Can change Average Vegetable Weight"
+        },
+        "model": "auth.permission",
+        "pk": 28
+    },
+    {
+        "fields": {
+            "codename": "delete_vegetableweight",
+            "content_type": 11,
+            "name": "Can delete Average Vegetable Weight"
+        },
+        "model": "auth.permission",
+        "pk": 34
+    },
+    {
+        "fields": {
+            "codename": "add_vendorsurvey",
+            "content_type": 13,
+            "name": "Can add Vendor"
+        },
+        "model": "auth.permission",
+        "pk": 27
+    },
+    {
+        "fields": {
+            "codename": "change_vendorsurvey",
+            "content_type": 13,
+            "name": "Can change Vendor"
+        },
+        "model": "auth.permission",
+        "pk": 33
+    },
+    {
+        "fields": {
+            "codename": "delete_vendorsurvey",
+            "content_type": 13,
+            "name": "Can delete Vendor"
+        },
+        "model": "auth.permission",
+        "pk": 39
+    },
+    {
+        "fields": {
+            "codename": "add_session",
+            "content_type": 5,
+            "name": "Can add session"
+        },
+        "model": "auth.permission",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "codename": "change_session",
+            "content_type": 5,
+            "name": "Can change session"
+        },
+        "model": "auth.permission",
+        "pk": 14
+    },
+    {
+        "fields": {
+            "codename": "delete_session",
+            "content_type": 5,
+            "name": "Can delete session"
+        },
+        "model": "auth.permission",
+        "pk": 15
+    },
+    {
+        "fields": {
+            "codename": "add_site",
+            "content_type": 6,
+            "name": "Can add site"
+        },
+        "model": "auth.permission",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "codename": "change_site",
+            "content_type": 6,
+            "name": "Can change site"
+        },
+        "model": "auth.permission",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "codename": "delete_site",
+            "content_type": 6,
+            "name": "Can delete site"
+        },
+        "model": "auth.permission",
+        "pk": 18
+    },
+    {
+        "fields": {
+            "date_joined": "2012-09-14T01:18:02.476Z",
+            "email": "a@fo.ho",
+            "first_name": "",
+            "groups": [],
+            "is_active": true,
+            "is_staff": true,
+            "is_superuser": true,
+            "last_login": "2012-09-14T01:18:09.560Z",
+            "last_name": "",
+            "password": "pbkdf2_sha256$10000$PxeM6e71zhlM$ofrCiBcmb3KWNVHcu7R5Lw9iPFZ4u+RmbJ+tcj01Sus=",
+            "user_permissions": [],
+            "username": "ders"
+        },
+        "model": "auth.user",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:57:39.175Z",
+            "change_message": "",
+            "content_type": 13,
+            "object_id": "2",
+            "object_repr": "2 Comoro (Dili) Wet Season (1/2011)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:56:15.866Z",
+            "change_message": "",
+            "content_type": 13,
+            "object_id": "1",
+            "object_repr": "1 Taibessi (Dili) Wet Season (1/2011)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:22:28.834Z",
+            "change_message": "",
+            "content_type": 11,
+            "object_id": "4",
+            "object_repr": "Ai-ata (1 fuan) (Wet Season (1/2011))",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:22:14.440Z",
+            "change_message": "",
+            "content_type": 11,
+            "object_id": "3",
+            "object_repr": "Casava (fuan 1) (Wet Season (1/2011))",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:22:04.178Z",
+            "change_message": "",
+            "content_type": 11,
+            "object_id": "2",
+            "object_repr": "Ai-ata (1 fuan) (Wet Season (1/2011))",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:21:54.412Z",
+            "change_message": "",
+            "content_type": 11,
+            "object_id": "1",
+            "object_repr": "Aidila tahan (butuk 1) (Wet Season (1/2011))",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:21:47.116Z",
+            "change_message": "",
+            "content_type": 8,
+            "object_id": "1",
+            "object_repr": "Wet Season (1/2011)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:21:15.200Z",
+            "change_message": "",
+            "content_type": 10,
+            "object_id": "3",
+            "object_repr": "Casava (fuan 1)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:20:55.356Z",
+            "change_message": "",
+            "content_type": 10,
+            "object_id": "2",
+            "object_repr": "Aidila tahan (butuk 1)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:20:41.928Z",
+            "change_message": "",
+            "content_type": 10,
+            "object_id": "1",
+            "object_repr": "Ai-ata (1 fuan)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:20:18.398Z",
+            "change_message": "",
+            "content_type": 9,
+            "object_id": "3",
+            "object_repr": "Tasi Ibun (Dili)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:20:05.932Z",
+            "change_message": "",
+            "content_type": 9,
+            "object_id": "2",
+            "object_repr": "Taibessi (Dili)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "action_flag": 1,
+            "action_time": "2012-09-14T01:19:58.761Z",
+            "change_message": "",
+            "content_type": 9,
+            "object_id": "1",
+            "object_repr": "Comoro (Dili)",
+            "user": 1
+        },
+        "model": "admin.logentry",
+        "pk": 1
+    }
+]
