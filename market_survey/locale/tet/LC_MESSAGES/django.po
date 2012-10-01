@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-24 23:12-0500\n"
-"PO-Revision-Date: 2012-09-24 23:12\n"
+"PO-Revision-Date: 2012-09-25 22:26\n"
 "Last-Translator:   <a@fo.ho>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -255,7 +255,7 @@ msgstr "Folin (fa'an)"
 #: views.py:135 templates/market_survey/average.html:135
 #: templates/market_survey/filter.html:32
 msgid "Sale Quantity"
-msgstr "Folin (fa'an)"
+msgstr "Unidade (fa'an)"
 
 #: views.py:136 templates/market_survey/average.html:136
 #: templates/market_survey/filter.html:33

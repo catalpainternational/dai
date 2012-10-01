@@ -90,9 +90,9 @@
               <th> {% trans 'Total $ bought' %} </th>
               <th> {% trans 'Units $ bought' %} </th>
               <!--th> {% trans 'Total units (gr)' %} </th--> 
-              <th> {% trans 'Total $ sold' %} </th>
               <th> {% trans 'Total Units sold' %} </th>
               <th> {% trans 'Units $ sold' %} </th>
+              <th> {% trans 'Total $ sold' %} </th>
               <!--th> {% trans 'Total units (gr)' %} </th-->          
               <th> {% trans "Average Purchase" %} </th>
               <th> {% trans "Average Sale" %} </th>
@@ -103,9 +103,9 @@
             <td> {{ total_units_bought }} </td>
             <td> ${{ total_dollars_bought|floatformat:2 }} </td>
             <td> {{ unit_dollars_bought|floatformat:2 }} </td>
-            <td> ${{ total_dollars_sold|floatformat:2 }} </td>
             <td> {{ total_units_sold }} </td>
-            <td> {{ unit_dollars_sold|floatformat:2 }} </td>
+            <td> ${{ unit_dollars_sold|floatformat:2 }} </td>
+            <td> ${{ total_dollars_sold|floatformat:2 }} </td>
             <td> ${{ avg_purchase|floatformat:2 }} </td>
             <td> ${{ avg_sale|floatformat:2 }} </td>
             <td> {{ profit_margin }}% </td>
@@ -126,16 +126,18 @@
         <table class='sort_table' id='sort_table'>
             <thead>
                 <tr>
-                  <th>{% trans 'Vendor' %}</th>
-                  <th>{% trans 'Vegetable' %}</th>
-                  <th>{% trans 'Purchase Price' %}</th>
-                  <th>{% trans 'Purchase Quantity' %}</th>
-                  <th>{% trans 'Purchase Unit Price' %}</th>
-                  <th>{% trans 'Sale Price' %}</th>
-                  <th>{% trans 'Sale Quantity' %}</th>
-                  <th>{% trans 'Sale Unit Price' %}</th>
-                  <th>{% trans 'District Origin' %}</th>
-                  <th>{% trans 'Profit Margin' %}</th>
+                  <th> {% trans 'Vendor' %} </th>
+                  <th> {% trans 'Vegetable' %} </th>
+                  <th> {% trans 'Total Units bought' %} </th>
+                  <th> {% trans 'Total $ bought' %} </th>
+                  <th> {% trans 'Units $ bought' %} </th>
+                  <!--th> {% trans 'Total units (gr)' %} </th--> 
+                  <th> {% trans 'Total Units sold' %} </th>
+                  <th> {% trans 'Units $ sold' %} </th>
+                  <th> {% trans 'Total $ sold' %} </th>
+                  <!--th> {% trans 'Total units (gr)' %} </th-->          
+                  <th> {% trans 'District Origin' %} </th>
+                  <th> {% trans 'Profit Margin' %} </th>
                 </tr>
             </thead>
             <tbody>
@@ -143,12 +145,12 @@
                 <tr>
                   <td> {{ obj.vendor_survey}} </td>
                   <td> {{ obj.vegetable }} </td>
-                  <td> ${{ obj.purchase_price|floatformat:2 }} </td>
                   <td> {{ obj.purchase_quantity }} </td>
+                  <td> ${{ obj.purchase_price|floatformat:2 }} </td>
                   <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
-                  <td> ${{ obj.sale_price|floatformat:2 }} </td>              
                   <td> {{ obj.sale_quantity }} </td>
-                  <td> ${{ obj.sale_unit_price|floatformat:2 }} </td>              
+                  <td> ${{ obj.sale_price|floatformat:2 }} </td>
+                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>       
                   <td> {{ obj.district }} </td>
                   <td> {{ obj.profit_margin }}% </td>
                 </tr>

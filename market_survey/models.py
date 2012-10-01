@@ -128,7 +128,7 @@ class Commodity(models.Model):
 
     # Kuantiade nebe ita atou fa'an ohin
     sale_quantity = models.IntegerField(_('quantity (sold)'))
-    sale_price = models.FloatField(_('price (sold)'))
+    sale_price = models.FloatField(_('price (sold)'))  # sale price per unit
 
      # Distritu nebe mak kuda modo hirak ne'e
     district = models.CharField(_('District Origin'), max_length=128, choices=DISTRICTS)
@@ -145,17 +145,14 @@ class Commodity(models.Model):
         p_unit_price = self.purchase_price / self.purchase_quantity
         return p_unit_price
 
-
     @property
-    def sale_unit_price(self,):
-        s_unit_price = self.sale_price / self.sale_quantity
-        return s_unit_price
-
+    def total_dollars_sold(self,):
+        total_dollars_sold = self.sale_price * self.sale_quantity
+        return total_dollars_sold
 
     @property
     def profit_margin(self,):
-        return int((self.sale_unit_price - self.purchase_unit_price) / self.purchase_unit_price * 100)
-
+        return int((self.sale_price - self.purchase_unit_price) / self.purchase_unit_price * 100)
 
 
 class VendorSurvey(models.Model):
