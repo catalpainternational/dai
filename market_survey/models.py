@@ -20,6 +20,7 @@ DISTRICTS = (
              ('Manufahi', 'Manufahi'),
              ('Oe-cussi', 'Oe-cussi'),
              ('Viqueque', 'Viqueque'),
+             ('International', 'International')
              )
 
 ## End of Globals ##
@@ -128,7 +129,7 @@ class Commodity(models.Model):
 
     # Kuantiade nebe ita atou fa'an ohin
     sale_quantity = models.IntegerField(_('quantity (sold)'))
-    sale_price = models.FloatField(_('price (sold)'))  # sale price per unit
+    sale_price = models.FloatField(_('Unit Price (sold)'))  # sale price per unit
 
      # Distritu nebe mak kuda modo hirak ne'e
     district = models.CharField(_('District Origin'), max_length=128, choices=DISTRICTS)

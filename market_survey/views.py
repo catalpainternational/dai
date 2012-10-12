@@ -48,20 +48,25 @@ def avg_product_list(request):
     if unit_dollars_sold != None and total_units_sold != None :
         total_dollars_sold = unit_dollars_sold * total_units_sold
 
+    # Calculates weights
+    #total_grams_bought = total_units_bought * 1
+    #total_grams_sold = total_units_sold * 1
+
     avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
     avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
 
     profit_margin = None
 
-    if avg_purchase > 0:
-        profit_margin = int((total_dollars_sold - total_dollars_bought) / total_dollars_bought * 100)
+    if avg_purchase > 0 and unit_dollars_bought != None:
+        profit_margin = int((total_dollars_sold - unit_dollars_bought) / unit_dollars_bought * 100)
 
     context = {
         'filter': filter,
         'total_units_bought': total_units_bought,
         'total_dollars_bought': total_dollars_bought,
         'unit_dollars_bought': unit_dollars_bought,
-        'total_unit_grams_bought': total_unit_grams_bought,
+        #'total_grams_bought': total_grams_bought,
+        #'total_grams_sold': total_grams_sold,
         'total_units_sold': total_units_sold,
         'total_dollars_sold': total_dollars_sold,
         'unit_dollars_sold': unit_dollars_sold,
@@ -109,7 +114,7 @@ def export_as_csv(response,queryset,context=None):
             _("Units $ sold"),
             _("Total $ sold"),
             _("Average Purchase"),
-            _("Average Sale"),
+            _("Average Unit Sale"),
             _("Profit Margin")
         ]
         writer.writerow(columns)

@@ -28,28 +28,47 @@
 
       }
 
-      form { padding-bottom: 10pt;
-            -moz-box-shadow: 0 0 8px #676762;
-            -webkit-box-shadow: 0 0 8px #676762;
-            box-shadow: 0 0 8px #676762;
-            padding:20px;
-            margin-left:250px;
-            padding-left:70px;
-            background-color: #f6f6f5;
-            width: 400px;
-            -webkit-border-radius: 4px;
-            -moz-border-radius: 4px;
-            border-radius: 4px;  
+      form { 
+        padding-bottom: 10pt;
+        -moz-box-shadow: 0 0 8px #676762;
+        -webkit-box-shadow: 0 0 8px #676762;
+        box-shadow: 0 0 8px #676762;
+        padding:20px;
+        margin-left:250px;
+        padding-left:70px;
+        background-color: #f6f6f5;
+        width: 400px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;  
       }
 
       form ul { list-style-type:none; }
 
-      form ul li { padding: 10pt;}
+      form ul li { padding: 5pt; }
+
+      ul li ul li label {
+        font-size: 10pt; 
+        margin: 0;
+        padding: 0px;
+      }
+
+      ul li ul li {
+        margin: 0;
+        padding: 0px;
+      }
+
+      form ul li ul {
+        border: 2px solid #ccc; 
+        height: 100px;
+        overflow-y: scroll; 
+        margin-bottom: 5pt;
+      }
 
       label { 
               display: block; 
               font-size: 14pt;
-              margin-bottom: 10pt;
+              margin-bottom: 5pt;
       }
 
       input{
@@ -89,13 +108,13 @@
               <th> {% trans 'Total Units bought' %} </th>
               <th> {% trans 'Total $ bought' %} </th>
               <th> {% trans 'Units $ bought' %} </th>
-              <!--th> {% trans 'Total units (gr)' %} </th--> 
+              <!--th> {% trans 'Total Units bought (gr)' %} </th--> 
               <th> {% trans 'Total Units sold' %} </th>
               <th> {% trans 'Units $ sold' %} </th>
               <th> {% trans 'Total $ sold' %} </th>
-              <!--th> {% trans 'Total units (gr)' %} </th-->          
+              <!--th> {% trans 'Total Units sold (gr)' %} </th-->          
               <th> {% trans "Average Purchase" %} </th>
-              <th> {% trans "Average Sale" %} </th>
+              <th> {% trans "Average Unit Sale" %} </th>
               <th> {% trans "Profit Margin" %} </th>
           </tr>
         </thead>
@@ -103,9 +122,11 @@
             <td> {{ total_units_bought }} </td>
             <td> ${{ total_dollars_bought|floatformat:2 }} </td>
             <td> {{ unit_dollars_bought|floatformat:2 }} </td>
+            <!--td> {{ total_grams_bought }} </td-->
             <td> {{ total_units_sold }} </td>
             <td> ${{ unit_dollars_sold|floatformat:2 }} </td>
             <td> ${{ total_dollars_sold|floatformat:2 }} </td>
+            <!--td> {{ total_grams_sold }} </td-->
             <td> ${{ avg_purchase|floatformat:2 }} </td>
             <td> ${{ avg_sale|floatformat:2 }} </td>
             <td> {{ profit_margin }}% </td>
@@ -131,11 +152,11 @@
                   <th> {% trans 'Total Units bought' %} </th>
                   <th> {% trans 'Total $ bought' %} </th>
                   <th> {% trans 'Units $ bought' %} </th>
-                  <!--th> {% trans 'Total units (gr)' %} </th--> 
+                  <!--th> {% trans 'Total Units bought (gr)' %} </th--> 
                   <th> {% trans 'Total Units sold' %} </th>
                   <th> {% trans 'Units $ sold' %} </th>
                   <th> {% trans 'Total $ sold' %} </th>
-                  <!--th> {% trans 'Total units (gr)' %} </th-->          
+                  <!--th> {% trans 'Total Units sold (gr)' %} </th-->          
                   <th> {% trans 'District Origin' %} </th>
                   <th> {% trans 'Profit Margin' %} </th>
                 </tr>
@@ -148,9 +169,11 @@
                   <td> {{ obj.purchase_quantity }} </td>
                   <td> ${{ obj.purchase_price|floatformat:2 }} </td>
                   <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
+                  <!--td> {{ obj.total_grams_bought }} </td-->
                   <td> {{ obj.sale_quantity }} </td>
                   <td> ${{ obj.sale_price|floatformat:2 }} </td>
-                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>       
+                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>    
+                  <!--td> {{ obj.total_grams_sold }} </td-->   
                   <td> {{ obj.district }} </td>
                   <td> {{ obj.profit_margin }}% </td>
                 </tr>
