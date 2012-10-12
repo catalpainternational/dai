@@ -143,7 +143,11 @@ class Commodity(models.Model):
 
     @property
     def purchase_unit_price(self,):
-        p_unit_price = self.purchase_price / self.purchase_quantity
+        if self.purchase_price > 0:
+            p_unit_price = self.purchase_price / self.purchase_quantity
+        else:
+            p_unit_price = 0
+
         return p_unit_price
 
     @property
@@ -153,7 +157,10 @@ class Commodity(models.Model):
 
     @property
     def profit_margin(self,):
-        return int((self.sale_price - self.purchase_unit_price) / self.purchase_unit_price * 100)
+        if self.purchase_unit_price > 0:
+            return int((self.sale_price - self.purchase_unit_price) / self.purchase_unit_price * 100)
+        else:
+            return 100  # if their is no cost then the profit is 100 percent
 
 
 class VendorSurvey(models.Model):

@@ -105,30 +105,20 @@
      <table>
         <thead>
           <tr>
-              <th> {% trans 'Total Units bought' %} </th>
-              <th> {% trans 'Total $ bought' %} </th>
-              <th> {% trans 'Units $ bought' %} </th>
-              <!--th> {% trans 'Total Units bought (gr)' %} </th--> 
-              <th> {% trans 'Total Units sold' %} </th>
-              <th> {% trans 'Units $ sold' %} </th>
+              <th> {% trans 'Total Kg bought' %} </th>
+              <th> {% trans 'Total Kg sold' %} </th>    
+              <th> {% trans 'Average Units $ bought' %} </th>
+              <th> {% trans "Average Unit $ Sold" %} </th> 
               <th> {% trans 'Total $ sold' %} </th>
-              <!--th> {% trans 'Total Units sold (gr)' %} </th-->          
-              <th> {% trans "Average Purchase" %} </th>
-              <th> {% trans "Average Unit Sale" %} </th>
               <th> {% trans "Profit Margin" %} </th>
           </tr>
         </thead>
         <tr>
-            <td> {{ total_units_bought }} </td>
-            <td> ${{ total_dollars_bought|floatformat:2 }} </td>
-            <td> {{ unit_dollars_bought|floatformat:2 }} </td>
-            <!--td> {{ total_grams_bought }} </td-->
-            <td> {{ total_units_sold }} </td>
-            <td> ${{ unit_dollars_sold|floatformat:2 }} </td>
-            <td> ${{ total_dollars_sold|floatformat:2 }} </td>
-            <!--td> {{ total_grams_sold }} </td-->
-            <td> ${{ avg_purchase|floatformat:2 }} </td>
+            <td> {{ total_kg_bought }} </td>
+            <td> {{ total_kg_sold }} </td>
+            <td> ${{ unit_dollars_bought|floatformat:2 }} </td>
             <td> ${{ avg_sale|floatformat:2 }} </td>
+            <td> ${{ total_dollars_sold|floatformat:2 }} </td>
             <td> {{ profit_margin }}% </td>
         </tr>
      </table>
@@ -169,11 +159,11 @@
                   <td> {{ obj.purchase_quantity }} </td>
                   <td> ${{ obj.purchase_price|floatformat:2 }} </td>
                   <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
-                  <!--td> {{ obj.total_grams_bought }} </td-->
+                  <!--td> {{ obj.total_kg_bought }} </td-->
                   <td> {{ obj.sale_quantity }} </td>
                   <td> ${{ obj.sale_price|floatformat:2 }} </td>
                   <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>    
-                  <!--td> {{ obj.total_grams_sold }} </td-->   
+                  <!--td> {{ obj.total_kg_sold }} </td-->   
                   <td> {{ obj.district }} </td>
                   <td> {{ obj.profit_margin }}% </td>
                 </tr>

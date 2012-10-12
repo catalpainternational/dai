@@ -26,8 +26,7 @@ class VendorSurveyAdmin(admin.ModelAdmin):
 
     list_display = ['vendor', 'sex', 'age_range', 'on_sell_to_others', 'marketplace', 'survey', 'payment_amount']
     list_filter = ['sex', 'marketplace', 'survey', 'payment_amount', 'on_sell_to_others', 'age_range']
-    search_fields = ['vendor', 'marketplace', 'marketplace__district', 'survey']
-
+    search_fields = ['marketplace__name', 'vendor', 'survey__name']
 
 class MarketplaceAdmin(admin.ModelAdmin):
     model = models.Marketplace

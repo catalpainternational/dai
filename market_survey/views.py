@@ -39,34 +39,32 @@ def avg_product_list(request):
     if total_dollars_bought > 0:
         unit_dollars_bought = total_dollars_bought / total_units_bought
 
-    total_unit_grams_bought = None
-
     total_units_sold = filter.qs.aggregate(Sum('sale_quantity'))['sale_quantity__sum']
     unit_dollars_sold = filter.qs.aggregate(Sum('sale_price'))['sale_price__sum']
 
     total_dollars_sold = None
-    if unit_dollars_sold != None and total_units_sold != None :
+    if unit_dollars_sold != None and total_units_sold != None:
         total_dollars_sold = unit_dollars_sold * total_units_sold
 
     # Calculates weights
-    #total_grams_bought = total_units_bought * 1
-    #total_grams_sold = total_units_sold * 1
+
+    total_kg_bought = None
+    total_kg_sold = None
 
     avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
     avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
 
     profit_margin = None
-
-    if avg_purchase > 0 and unit_dollars_bought != None:
-        profit_margin = int((total_dollars_sold - unit_dollars_bought) / unit_dollars_bought * 100)
+    if unit_dollars_bought != None:
+        profit_margin = int((avg_sale - unit_dollars_bought) / unit_dollars_bought * 100)
 
     context = {
         'filter': filter,
         'total_units_bought': total_units_bought,
         'total_dollars_bought': total_dollars_bought,
         'unit_dollars_bought': unit_dollars_bought,
-        #'total_grams_bought': total_grams_bought,
-        #'total_grams_sold': total_grams_sold,
+        'total_kg_bought': total_kg_bought,
+        'total_kg_sold': total_kg_sold,
         'total_units_sold': total_units_sold,
         'total_dollars_sold': total_dollars_sold,
         'unit_dollars_sold': unit_dollars_sold,
