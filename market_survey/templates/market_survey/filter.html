@@ -13,11 +13,14 @@ p {padding: 5px;}
 {% endblock %}
 
 {% block content %}
+    {% if len(querystring)==0 %}
     <form action="" method="get">
         {{ filter.form.as_p }}
         <input type="submit" />
     </form>
-    <hr>
+
+    {% else %}<!--<hr>-->
+
     <div>
       <a href="?{{querystring}}&CSV=True">{% trans "Export as CSV" %}</a>
         <table class='sort_table' id='sort_table'>
@@ -51,4 +54,5 @@ p {padding: 5px;}
         {% endfor %}
         </table>
     </div>
+    {% endif %}
 {% endblock %}

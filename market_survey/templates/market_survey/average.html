@@ -6,6 +6,7 @@
 
 {% block extrastyle %}
   {{ super.block }}
+    <link type="text/css" rel="stylesheet" href="/static/css/font-awesome.css" />
    <style>
       body {
             background: url(/static/images/header-bg.png) repeat-x #eaeaea;
@@ -79,6 +80,32 @@
       select { width: 250pt; }
 
       select[multiple="multiple"] { height: 60pt; }
+      
+      div.thumbnail.explore {
+            width: 100px;
+            height: 140px;
+            position: relative;
+            left: 120px;
+
+      }
+      a.icon-file {
+            font-size: 72px;
+            color: #4e4e4c;
+            padding-left: 28px;
+            position: relative;
+            top: 38px;
+      }
+
+      h3 {
+            color: #4e4e4c;
+            position: relative;
+            top: -5px;
+            font-size: 20px;
+            left: px;
+            text-align: center;
+      }
+
+
 
     </style>
 {% endblock %}
@@ -90,6 +117,8 @@
 {% endblock %}
 
 {% block content %}
+
+    {% if querystring|length == 0 %}
     <div id='survey_section'>
       <form action="" method="GET">
         <ul>
@@ -98,7 +127,11 @@
         <input type="submit" />
       </form>
     </div>
-    <hr>
+    {% else %}<!--<hr>-->
+    <div class="thumbnail explore">
+      <a href='/summary/' class="icon-file"><h3>{% trans 'Explore' %}</h3></a>       
+    </div>
+
     <div id='results_section' class="results_container">
       <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
       <h2>{% trans "Summary"%}</h2>
@@ -171,5 +204,5 @@
             </tbody>
         </table>
     </div>
-
+    {% endif %}
 {% endblock %}
