@@ -1,6 +1,8 @@
 import unicodecsv
 
 from datetime import date
+from datetime import datetime
+
 from django.shortcuts import render_to_response
 from django.db.models import Avg, Sum
 from django.utils.translation import ugettext as _
@@ -17,6 +19,7 @@ def index(request):
 
 
 def avg_product_list(request):
+    t00 = datetime.now()
     filter = CommodityFilter(request.GET, queryset=Commodity.objects.all())
     context = {
         'filter': filter,
@@ -35,10 +38,14 @@ def avg_product_list(request):
         unit_dollars_sold = filter.qs.aggregate(Sum('sale_price'))['sale_price__sum']
 
         total_dollars_sold = None
+
         if unit_dollars_sold != None and total_units_sold != None:
-            total_dollars_sold = unit_dollars_sold * total_units_sold
+            t0 = datetime.now()
+            total_dollars_sold = sum([ c.sale_price * c.sale_quantity for c in filter.qs.all()])
+            print "time for unit total sold:",(datetime.now() - t0)
 
         # Calculates weights
+        t0 = datetime.now()
         veggies = dict([(c.vegetable,[c.purchase_quantity,c.sale_quantity,c.vendor_survey]) for c in filter.qs.all()])
 
         #hopefully, only one weight per vegetable | survey pair
@@ -46,6 +53,8 @@ def avg_product_list(request):
 
         grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
         grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
+        print "time for total weight bought & sold:",(datetime.now() - t0)
+
         total_kg_bought = grams_bought / 1000
         total_kg_sold = grams_sold / 1000
 
@@ -82,11 +91,12 @@ def avg_product_list(request):
     # add
     #'total_unit_grams_bought': total_unit_grams_bought,
     # to context
-    return render_to_response('market_survey/filter.html',
+    print "Total time calculation:",(datetime.now() - t00)
+    response = render_to_response('market_survey/filter.html',
                               context,
                               context_instance=RequestContext(request))
-
-
+    print "Total time:",(datetime.now() - t00)
+    return response
 
 def export_as_csv(response,queryset,context=None):
 
