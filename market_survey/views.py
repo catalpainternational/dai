@@ -52,8 +52,8 @@ def avg_product_list(request):
     #hopefully, only one weight per vegetable | survey pair
     veggies_weights = dict([(v, v.vegetableweight_set.filter(survey=veggies[v][2].survey).aggregate(Sum('grams'))['grams__sum']) for v in veggies.keys()])
 
-    grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys()])
-    grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys()])
+    grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
+    grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
 
     total_kg_bought = grams_bought / 1000
     total_kg_sold = grams_sold / 1000
