@@ -47,9 +47,16 @@ def avg_product_list(request):
         total_dollars_sold = unit_dollars_sold * total_units_sold
 
     # Calculates weights
+    veggies = dict([(c.vegetable,[c.purchase_quantity,c.sale_quantity,c.vendor_survey]) for c in filter.qs.all()])
 
-    total_kg_bought = None
-    total_kg_sold = None
+    #hopefully, only one weight per vegetable | survey pair
+    veggies_weights = dict([(v, v.vegetableweight_set.filter(survey=veggies[v][2].survey).aggregate(Sum('grams'))['grams__sum']) for v in veggies.keys()])
+
+    grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys()])
+    grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys()])
+
+    total_kg_bought = grams_bought / 1000
+    total_kg_sold = grams_sold / 1000
 
     avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
     avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -86,7 +93,9 @@ def avg_product_list(request):
                               'total_units_bought': total_units_bought,
                               'total_dollars_bought': total_dollars_bought,
                               'unit_dollars_bought': unit_dollars_bought,
-                              'total_unit_grams_bought': total_unit_grams_bought,
+                              #'total_unit_grams_bought': total_unit_grams_bought,
+                              'total_kg_bought': total_kg_bought,
+                              'total_kg_sold': total_kg_sold,
                               'total_units_sold': total_units_sold,
                               'total_dollars_sold': total_dollars_sold,
                               'unit_dollars_sold': unit_dollars_sold,
