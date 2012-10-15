@@ -1,57 +1,227 @@
 {% extends "admin/base_site.html" %}
 {% load i18n humanize %}
 
+
+{% block title %}{% trans 'Market Survey' %}{% endblock %}
+
 {% block extrastyle %}
-<style>
-p {padding: 5px;}
-</style>
+  {{ super.block }}
+    <link type="text/css" rel="stylesheet" href="/static/css/font-awesome.css" />
+   <style>
+      body {
+            background: url(/static/images/header-bg.png) repeat-x #eaeaea;
+            font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 18px;
+            margin: 0px;
+      }
+
+      table { 
+          width: 90%;
+          background: #fff;
+      }
+
+      th, td { color: #000; }
+
+      .results_container {
+        margin-left: 50px;
+
+      }
+
+      form { 
+        padding-bottom: 10pt;
+        -moz-box-shadow: 0 0 8px #676762;
+        -webkit-box-shadow: 0 0 8px #676762;
+        box-shadow: 0 0 8px #676762;
+        padding:20px;
+        margin-left:250px;
+        padding-left:70px;
+        background-color: #f6f6f5;
+        width: 400px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;  
+      }
+
+      form ul { list-style-type:none; }
+
+      form ul li { padding: 5pt; }
+
+      ul li ul li label {
+        font-size: 10pt; 
+        margin: 0;
+        padding: 0px;
+      }
+
+      ul li ul li {
+        margin: 0;
+        padding: 0px;
+      }
+
+      form ul li ul {
+        border: 2px solid #ccc; 
+        height: 100px;
+        overflow-y: scroll; 
+        margin-bottom: 5pt;
+      }
+
+      label { 
+              display: block; 
+              font-size: 14pt;
+              margin-bottom: 5pt;
+      }
+
+      input{
+              position: relative;
+              left: 285px;
+      }
+  
+      select { width: 250pt; }
+
+      select[multiple="multiple"] { height: 60pt; }
+      
+      div.thumbnail.explore {
+            width: 280px;
+            height: 80px;
+            position: relative; 
+            left: 60px;
+
+      }
+      a.icon-file {
+            font-size: 72px;
+            color: #4e4e4c;
+            padding-left: 28px;
+/*            position: relative;
+            top: 38px;*/
+      }
+
+      h3 {
+            color: #4e4e4c;
+            position: relative;
+            top: -45px;
+            font-size: 20px;
+
+            text-align: center;
+      }
+
+      .thumbnail {
+          background-color:#fff;
+          display: block;
+          padding: 4px;
+          line-height: 1;
+          border: 1px solid #ddd;
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          border-radius: 4px;
+          -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+          -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+        }
+
+
+    </style>
 {% endblock %}
 
 {% block extrahead %}
+    {{ super.block }}
     <script type="text/javascript" src="/static/js/jquery-1.8.1.min.js"></script> 
     <script src="/static/js/jquery.tablesorter.js"></script>
 {% endblock %}
 
 {% block content %}
-    {% if len(querystring)==0 %}
-    <form action="" method="get">
-        {{ filter.form.as_p }}
+
+    {% if querystring|length == 0 %}
+
+    <div id='survey_section'>
+      <form action="" method="GET">
+        <ul>
+          {{ filter.form.as_ul }}
+        </ul>
         <input type="submit" />
-    </form>
+      </form>
+    </div>
 
     {% else %}<!--<hr>-->
 
-    <div>
-      <a href="?{{querystring}}&CSV=True">{% trans "Export as CSV" %}</a>
+    <div class="thumbnail explore">
+      <a href='/summary/' class="icon-file"><h3>{% trans 'Change filter' %}</h3></a> 
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <div id='results_section' class="results_container">
+      <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
+      <h2>{% trans "Summary"%}</h2>
+     <table>
+        <thead>
+          <tr>
+              <th> {% trans 'Total Kg bought' %} </th>
+              <th> {% trans 'Total Kg sold' %} </th>    
+              <th> {% trans 'Average Units $ bought' %} </th>
+              <th> {% trans "Average Unit $ Sold" %} </th> 
+              <th> {% trans 'Total $ sold' %} </th>
+              <th> {% trans "Profit Margin" %} </th>
+          </tr>
+        </thead>
+        <tr>
+            <td> {{ total_kg_bought }} </td>
+            <td> {{ total_kg_sold }} </td>
+            <td> ${{ unit_dollars_bought|floatformat:2 }} </td>
+            <td> ${{ avg_sale|floatformat:2 }} </td>
+            <td> ${{ total_dollars_sold|floatformat:2 }} </td>
+            <td> {{ profit_margin }}% </td>
+        </tr>
+     </table>
+    </div>
+    <!-- <hr> -->
+    <br>
+    <div class="results_container">
+        <h2> {% trans 'Detail' %} </h2>
+
+        <script>
+            $(document).ready(function() 
+                { 
+                    $("#sort_table").tablesorter({sortList: [[0,1]]}); 
+                } 
+            ); 
+        </script>
         <table class='sort_table' id='sort_table'>
             <thead>
                 <tr>
-                    <th>{% trans 'Vendor' %}</th>
-                    <th>{% trans 'Vegetable' %}</th>
-                    <th>{% trans 'Purchase Price' %}</th>
-                    <th>{% trans 'Purchase Quantity' %}</th>
-                    <th>{% trans 'Purchase Unit Price' %}</th>
-                    <th>{% trans 'Sale Price' %}</th>
-                    <th>{% trans 'Sale Quantity' %}</th>
-                    <th>{% trans 'Sale Unit Price' %}</th>
-                    <th>{% trans 'District Origin' %}</th>
-                    <th>{% trans 'Profit Margin' %}</th>
+                  <th> {% trans 'Vendor' %} </th>
+                  <th> {% trans 'Vegetable' %} </th>
+                  <th> {% trans 'Total Units bought' %} </th>
+                  <th> {% trans 'Total $ bought' %} </th>
+                  <th> {% trans 'Units $ bought' %} </th>
+                  <!--th> {% trans 'Total Units bought (gr)' %} </th--> 
+                  <th> {% trans 'Total Units sold' %} </th>
+                  <th> {% trans 'Units $ sold' %} </th>
+                  <th> {% trans 'Total $ sold' %} </th>
+                  <!--th> {% trans 'Total Units sold (gr)' %} </th-->          
+                  <th> {% trans 'District Origin' %} </th>
+                  <th> {% trans 'Profit Margin' %} </th>
                 </tr>
             </thead>
-        {% for obj in filter %}
-            <tr>
-                <td> {{ obj.vendor_survey}} </td>
-                <td> {{ obj.vegetable }} </td>
-                <td> ${{ obj.purchase_price|floatformat:2 }} </td>
-                <td> {{ obj.purchase_quantity }} </td>
-                <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
-                <td> ${{ obj.sale_price|floatformat:2 }} </td>              
-                <td> {{ obj.sale_quantity }} </td>
-                <td> ${{ obj.sale_unit_price|floatformat:2 }} </td>              
-                <td> {{ obj.district }} </td>
-                <td> {{ obj.profit_margin }}% </td>
-            </tr>
-        {% endfor %}
+            <tbody>
+            {% for obj in filter %}
+                <tr>
+                  <td> {{ obj.vendor_survey}} </td>
+                  <td> {{ obj.vegetable }} </td>
+                  <td> {{ obj.purchase_quantity }} </td>
+                  <td> ${{ obj.purchase_price|floatformat:2 }} </td>
+                  <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
+                  <!--td> {{ obj.total_kg_bought }} </td-->
+                  <td> {{ obj.sale_quantity }} </td>
+                  <td> ${{ obj.sale_price|floatformat:2 }} </td>
+                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>    
+                  <!--td> {{ obj.total_kg_sold }} </td-->   
+                  <td> {{ obj.district }} </td>
+                  <td> {{ obj.profit_margin }}% </td>
+                </tr>
+            {% endfor %}
+            </tbody>
         </table>
     </div>
     {% endif %}
