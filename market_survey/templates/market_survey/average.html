@@ -82,29 +82,42 @@
       select[multiple="multiple"] { height: 60pt; }
       
       div.thumbnail.explore {
-            width: 100px;
-            height: 140px;
-            position: relative;
-            left: 120px;
+            width: 280px;
+            height: 80px;
+            position: relative; 
+            left: 60px;
 
       }
       a.icon-file {
             font-size: 72px;
             color: #4e4e4c;
             padding-left: 28px;
-            position: relative;
-            top: 38px;
+/*            position: relative;
+            top: 38px;*/
       }
 
       h3 {
             color: #4e4e4c;
             position: relative;
-            top: -5px;
+            top: -45px;
             font-size: 20px;
-            left: px;
+
             text-align: center;
       }
 
+      .thumbnail {
+          background-color:#fff;
+          display: block;
+          padding: 4px;
+          line-height: 1;
+          border: 1px solid #ddd;
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          border-radius: 4px;
+          -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+          -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+        }
 
 
     </style>
@@ -119,6 +132,7 @@
 {% block content %}
 
     {% if querystring|length == 0 %}
+
     <div id='survey_section'>
       <form action="" method="GET">
         <ul>
@@ -127,11 +141,16 @@
         <input type="submit" />
       </form>
     </div>
+
     {% else %}<!--<hr>-->
+
     <div class="thumbnail explore">
-      <a href='/summary/' class="icon-file"><h3>{% trans 'Explore' %}</h3></a>       
+      <a href='/summary/' class="icon-file"><h3>{% trans 'Change filter' %}</h3></a> 
     </div>
 
+    <br>
+    <br>
+    <br>
     <div id='results_section' class="results_container">
       <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
       <h2>{% trans "Summary"%}</h2>
@@ -156,7 +175,8 @@
         </tr>
      </table>
     </div>
-    <hr>
+    <!-- <hr> -->
+    <br>
     <div class="results_container">
         <h2> {% trans 'Detail' %} </h2>
 
