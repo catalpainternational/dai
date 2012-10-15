@@ -88,9 +88,6 @@ def avg_product_list(request):
         response = export_as_csv(response, filter.qs, context)
         return response
 
-    # add
-    #'total_unit_grams_bought': total_unit_grams_bought,
-    # to context
     print "Total time calculation:",(datetime.now() - t00)
     response = render_to_response('market_survey/filter.html',
                               context,
