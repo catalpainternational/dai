@@ -88,21 +88,11 @@ def avg_product_list(request):
         response = export_as_csv(response, filter.qs, context)
         return response
 
+    # add
+    #'total_unit_grams_bought': total_unit_grams_bought,
+    # to context
     return render_to_response('market_survey/average.html',
-                              {'filter': filter,
-                              'total_units_bought': total_units_bought,
-                              'total_dollars_bought': total_dollars_bought,
-                              'unit_dollars_bought': unit_dollars_bought,
-                              #'total_unit_grams_bought': total_unit_grams_bought,
-                              'total_kg_bought': total_kg_bought,
-                              'total_kg_sold': total_kg_sold,
-                              'total_units_sold': total_units_sold,
-                              'total_dollars_sold': total_dollars_sold,
-                              'unit_dollars_sold': unit_dollars_sold,
-                              'avg_sale': avg_sale,
-                              'avg_purchase': avg_purchase,
-                              'profit_margin': profit_margin,
-                              'querystring': request.META['QUERY_STRING']},
+                              context,
                               context_instance=RequestContext(request))
 
 
