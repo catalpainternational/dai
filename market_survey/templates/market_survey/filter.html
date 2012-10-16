@@ -118,7 +118,16 @@
           -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
         }
+       .results_section{
+        top:-100px;
 
+       } 
+
+       h4 a {
+       color: #fff;
+       font-size: 14px;
+
+       }
 
     </style>
 {% endblock %}
@@ -144,15 +153,13 @@
 
     {% else %}<!--<hr>-->
 
-    <div class="thumbnail explore">
-      <a href='/summary/' class="icon-file"><h3>{% trans 'Change filter' %}</h3></a> 
-    </div>
-
-    <br>
-    <br>
-    <br>
     <div id='results_section' class="results_container">
-      <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
+      <h4><a href='/summary/' class="icon-search">&nbsp; 
+{% trans 'New Query' %}</a> 
+      &nbsp; &nbsp; 
+      <a href="?{{querystring}}&CSV=True" class="icon-download">&nbsp; 
+{% trans "Export summary & details as CSV" %}</a></h4>
+ <br>
       <h2>{% trans "Summary"%}</h2>
      <table>
         <thead>
@@ -176,6 +183,7 @@
      </table>
     </div>
     <!-- <hr> -->
+    <br>
     <br>
     <div class="results_container">
         <h2> {% trans 'Detail' %} </h2>
