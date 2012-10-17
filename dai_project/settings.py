@@ -40,9 +40,11 @@ TIME_ZONE = 'America/Chicago'
 LANGUAGE_CODE = 'tet'
 
 LANGUAGES = (
-    ('en', 'English'),
     ('tet', 'Tetun'),
+    ('en', 'English'),
     )
+
+LOCALEURL_USE_ACCEPT_LANGUAGE = False
 
 
 LOCALE_INDEPENDENT_PATHS = (
@@ -119,10 +121,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'localeurl.middleware.LocaleURLMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
