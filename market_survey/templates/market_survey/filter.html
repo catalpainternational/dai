@@ -203,11 +203,11 @@
                   <th> {% trans 'Total Units bought' %} </th>
                   <th> {% trans 'Total $ bought' %} </th>
                   <th> {% trans 'Units $ bought' %} </th>
-                  <!--th> {% trans 'Total Units bought (gr)' %} </th--> 
+                  <th> {% trans 'Total Kg bought' %} </th> 
                   <th> {% trans 'Total Units sold' %} </th>
                   <th> {% trans 'Units $ sold' %} </th>
                   <th> {% trans 'Total $ sold' %} </th>
-                  <!--th> {% trans 'Total Units sold (gr)' %} </th-->          
+                  <th> {% trans 'Total Kg sold' %} </th>          
                   <th> {% trans 'District Origin' %} </th>
                   <th> {% trans 'Profit Margin' %} </th>
                 </tr>
@@ -220,11 +220,11 @@
                   <td> {{ obj.purchase_quantity }} </td>
                   <td> ${{ obj.purchase_price|floatformat:2 }} </td>
                   <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
-                  <!--td> {{ obj.total_kg_bought }} </td-->
+                  <td> {{ obj.total_kg_bought }} </td>
                   <td> {{ obj.sale_quantity }} </td>
                   <td> ${{ obj.sale_price|floatformat:2 }} </td>
                   <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>    
-                  <!--td> {{ obj.total_kg_sold }} </td-->   
+                  <td> {{ obj.total_kg_sold }} </td>   
                   <td> {{ obj.district }} </td>
                   <td> {{ obj.profit_margin }}% </td>
                 </tr>

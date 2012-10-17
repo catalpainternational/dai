@@ -142,6 +142,28 @@ class Commodity(models.Model):
         return "%s (%s) - %s" % (self.vegetable, self.district, self.vendor_survey)
 
     @property
+    def total_kg_bought(self,):
+        survey = self.vendor_survey.survey
+        try:
+            vegetable_in_grams = VegetableWeight.objects.get(survey=survey, vegetable=self.vegetable).grams
+        except:
+            print 'failed to match vegetable weigth for  %s and %s' % (survey, self.vegetable)
+            vegetable_in_grams = 0
+
+        return self.purchase_quantity * vegetable_in_grams * 0.001
+
+    @property
+    def total_kg_sold(self,):
+        survey = self.vendor_survey.survey
+        try:
+            vegetable_in_grams = VegetableWeight.objects.get(survey=survey, vegetable=self.vegetable).grams
+        except:
+            print 'failed to match vegetable weigth for  %s and %s' % (survey, self.vegetable)
+            vegetable_in_grams = 0
+
+        return self.sale_quantity * vegetable_in_grams * 0.001
+
+    @property
     def purchase_unit_price(self,):
         if self.purchase_price > 0:
             p_unit_price = self.purchase_price / self.purchase_quantity

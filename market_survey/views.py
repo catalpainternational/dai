@@ -45,18 +45,21 @@ def avg_product_list(request):
             print "time for unit total sold:",(datetime.now() - t0)
 
         # Calculates weights
-        t0 = datetime.now()
-        veggies = dict([(c.vegetable,[c.purchase_quantity,c.sale_quantity,c.vendor_survey]) for c in filter.qs.all()])
+        #t0 = datetime.now()
+        #veggies = dict([(c.vegetable, [c.purchase_quantity, c.sale_quantity, c.vendor_survey]) for c in filter.qs.all()])
 
         #hopefully, only one weight per vegetable | survey pair
-        veggies_weights = dict([(v, v.vegetableweight_set.filter(survey=veggies[v][2].survey).aggregate(Sum('grams'))['grams__sum']) for v in veggies.keys()])
+        #veggies_weights = dict([(v, v.vegetableweight_set.filter(survey=veggies[v][2].survey).aggregate(Sum('grams'))['grams__sum']) for v in veggies.keys()])
 
-        grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
-        grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
-        print "time for total weight bought & sold:", (datetime.now() - t0)
+        #grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
+        #grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
+        #print "time for total weight bought & sold:", (datetime.now() - t0)
 
-        total_kg_bought = grams_bought * 0.001
-        total_kg_sold = grams_sold * 0.001
+        #total_kg_bought = grams_bought * 0.001
+        #total_kg_sold = grams_sold * 0.001
+
+        total_kg_bought = sum([c.total_kg_bought for c in filter.qs.all()])
+        total_kg_sold = sum([c.total_kg_sold for c in filter.qs.all()])
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -127,9 +130,11 @@ def export_as_csv(response,queryset,context=None):
         _('Total Units bought'),
         _('Total $ bought'),
         _('Units $ bought'),
+        _('Total Kg bought'),
         _('Total Units sold'),
         _('Units $ sold'),
         _('Total $ sold'),
+        _('Total Kg sold'),
         _('District Origin'),
         _('Profit Margin')
     ])
@@ -141,9 +146,11 @@ def export_as_csv(response,queryset,context=None):
             obj.purchase_quantity ,
             "$ %2f" % obj.purchase_price,
             "$ %2f" %  obj.purchase_unit_price,
+            obj.total_kg_bought,
             obj.sale_quantity,
             obj.sale_price,
             "$ %2f" % obj.total_dollars_sold,
+            obj.total_kg_sold,
             obj.district ,
             "%2f %%" % obj.profit_margin])
     return response
