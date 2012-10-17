@@ -37,7 +37,6 @@ def avg_product_list(request):
 
         total_units_sold = filter.qs.aggregate(Sum('sale_quantity'))['sale_quantity__sum']
         unit_dollars_sold = filter.qs.aggregate(Sum('sale_price'))['sale_price__sum']
-
         total_dollars_sold = None
 
         if unit_dollars_sold != None and total_units_sold != None:
@@ -56,26 +55,16 @@ def avg_product_list(request):
         print "there are %d weights" % len(veggies_weights)
         grams_bought = 0
         grams_sold = 0
-        n = 0
+        weightless = 0
         for c in filter.qs.all().values('vegetable','vendor_survey','vendor_survey__survey','purchase_quantity','sale_quantity','id','vegetable__name','purchase_price','sale_price','district'):
             buff = c
-            # buff['vendor']
-            # buff['vegetable__name']
-            # buff['purchase_price']
-            # buff['district']
-            # buff['sale_price']
 
             buff['purchase_unit_price'] = 0 if c['purchase_price'] == 0 else  c['purchase_price'] / c['purchase_quantity']
             buff['total_dollars_sold'] = c['sale_price'] * c['sale_quantity']
             buff['profit_margin'] =  100 if buff['purchase_price']==0 else int((c['sale_price'] - buff['purchase_unit_price']) / buff['purchase_unit_price'] * 100)
 
-
-
-            #k = (c.vegetable.id,c.vendor_survey.survey.id)
             k = (c['vegetable'],c['vendor_survey__survey'])
             if k in veggies_weights:
-                # c_grams_bought[c] = veggies_weights[k] * c.purchase_quantity
-                # c_grams_sold[c] = veggies_weights[k] * c.sale_quantity
                 bought = veggies_weights[k] * int(c['purchase_quantity'])
                 sold   = veggies_weights[k] * int(c['sale_quantity'])
                 buff['grams_bought'] = bought
@@ -86,12 +75,12 @@ def avg_product_list(request):
             else:
                 buff['grams_bought'] = 0
                 buff['grams_sold']   = 0
-                n +=1 #print "no vegetable weight for ",k
+                weightless +=1
             cache[c['id']]=buff
 
         total_kg_bought = grams_bought * 0.001
         total_kg_sold = grams_sold * 0.001
-        print "there are %d missing weights" % n
+        print "there are %d missing weights" % weightless
         print "time for total weight bought & sold method 1:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
