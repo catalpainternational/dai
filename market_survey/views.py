@@ -53,10 +53,10 @@ def avg_product_list(request):
 
         grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
         grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
-        print "time for total weight bought & sold:",(datetime.now() - t0)
+        print "time for total weight bought & sold:", (datetime.now() - t0)
 
-        total_kg_bought = grams_bought / 1000
-        total_kg_sold = grams_sold / 1000
+        total_kg_bought = grams_bought * 0.001
+        total_kg_sold = grams_sold * 0.001
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -102,26 +102,21 @@ def export_as_csv(response,queryset,context=None):
         header = [_('Filtered data summary'), date.today().strftime('%Y/%m/%d')]
         writer.writerow(header)
         columns =[
-            _("Total Units bought"),
-            _("Total $ bought"),
-            _("Units $ bought"),
-            _("Total Units sold"),
-            _("Units $ sold"),
+            _("Total Kg bought"),
+            _("Total Kg sold"),
+            _("Average Units $ bought"),
+            _("Average Unit $ Sold"),
             _("Total $ sold"),
-            _("Average Purchase"),
-            _("Average Unit Sale"),
-            _("Profit Margin")
+            _("Total $ sold"),
+            _("Profit Margin"),
         ]
         writer.writerow(columns)
         writer.writerow([
-            context['total_units_bought'],
-            "$ %2f" % context['total_dollars_bought'],
-            "%2f" % context['unit_dollars_bought'],
-            context['total_units_sold'],
-            "%2f" % context['unit_dollars_sold'],
-            "$ %2f" % context['total_dollars_sold'],
-            "$ %2f" % context['avg_purchase'],
+            context['total_kg_bought'],
+            context['total_kg_sold'],
+            "$ %2f" % context['unit_dollars_bought'],
             "$ %2f" % context['avg_sale'],
+            "$ %2f" % context['total_dollars_sold'],
             "%2f %%" % context['profit_margin']
         ])
 
