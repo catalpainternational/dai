@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.template.context import RequestContext
 
-from models import Commodity,VegetableWeight
+from models import Commodity,VegetableWeight,VendorSurvey
 from filters import CommodityFilter
 
 
@@ -25,8 +25,8 @@ def avg_product_list(request):
         'filter': filter,
         'querystring': request.META['QUERY_STRING']
         }
-    c_grams_bought = {}
-    c_grams_sold = {}
+
+    cache = {}
     if len(request.META['QUERY_STRING'])>0: # some filter
         total_units_bought = filter.qs.aggregate(Sum('purchase_quantity'))['purchase_quantity__sum']
         total_dollars_bought = filter.qs.aggregate(Sum('purchase_price'))['purchase_price__sum']
@@ -50,36 +50,49 @@ def avg_product_list(request):
         # #hopefully, only one weight per vegetable | survey pair
         # # ha!. Nope.
         # get all the weights, independently of the survey
-        veggies_weights = dict([((w.vegetable,w.survey),w.grams) for w in VegetableWeight.objects.all()])
+        veggies_weights = dict([((w['vegetable'],w['survey']),w['grams']) for w in VegetableWeight.objects.all().values('vegetable','grams','survey')])
 
         print "there are %d commodity to assess" % filter.qs.all().count()
         print "there are %d weights" % len(veggies_weights)
-
+        grams_bought = 0
+        grams_sold = 0
         n = 0
-        grams_bought = 0.0
-        grams_sold   = 0.0
-        for c in filter.qs.all():
-            k = (c.vegetable,c.vendor_survey.survey)
+        for c in filter.qs.all().values('vegetable','vendor_survey','vendor_survey__survey','purchase_quantity','sale_quantity','id','vegetable__name','purchase_price','sale_price','district'):
+            buff = c
+            # buff['vendor']
+            # buff['vegetable__name']
+            # buff['purchase_price']
+            # buff['district']
+            # buff['sale_price']
 
+            buff['purchase_unit_price'] = 0 if c['purchase_price'] == 0 else  c['purchase_price'] / c['purchase_quantity']
+            buff['total_dollars_sold'] = c['sale_price'] * c['sale_quantity']
+            buff['profit_margin'] =  100 if buff['purchase_price']==0 else int((c['sale_price'] - buff['purchase_unit_price']) / buff['purchase_unit_price'] * 100)
+
+
+
+            #k = (c.vegetable.id,c.vendor_survey.survey.id)
+            k = (c['vegetable'],c['vendor_survey__survey'])
             if k in veggies_weights:
-                c_grams_bought[c] = veggies_weights[k] * c.purchase_quantity
-                c_grams_sold[c] = veggies_weights[k] * c.sale_quantity
+                # c_grams_bought[c] = veggies_weights[k] * c.purchase_quantity
+                # c_grams_sold[c] = veggies_weights[k] * c.sale_quantity
+                bought = veggies_weights[k] * int(c['purchase_quantity'])
+                sold   = veggies_weights[k] * int(c['sale_quantity'])
+                buff['grams_bought'] = bought
+                buff['grams_sold']   = sold
 
-                grams_bought += c_grams_bought[c]
-                grams_sold   += c_grams_sold[c]
+                grams_bought += bought
+                grams_sold   += sold
             else:
+                buff['grams_bought'] = 0
+                buff['grams_sold']   = 0
                 n +=1 #print "no vegetable weight for ",k
+            cache[c['id']]=buff
 
         total_kg_bought = grams_bought * 0.001
         total_kg_sold = grams_sold * 0.001
-        print "there are %d missing prices" % n
+        print "there are %d missing weights" % n
         print "time for total weight bought & sold method 1:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
-
-
-        # t0 = datetime.now()
-        # total_kg_bought = sum([c.total_kg_bought for c in filter.qs.all()])
-        # total_kg_sold = sum([c.total_kg_sold for c in filter.qs.all()])
-        # print "time for total weight bought & sold method 2:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -114,7 +127,7 @@ def avg_product_list(request):
 
     print "Total time calculation:",(datetime.now() - t00)
     t0 = datetime.now()
-    context['results_table_body']=get_results_tbody(request,c_grams_bought,c_grams_sold)
+    context['results_table_body']=get_results_tbody(request,cache)
     print "Time for TBODY content rendering:",(datetime.now() - t0)
 
     t0 = datetime.now()
@@ -183,25 +196,28 @@ def export_as_csv(response,queryset,context=None):
     return response
 
 
-def get_results_tbody(request,c_grams_bought,c_grams_sold):
+def get_results_tbody(request,cache):
     lines =[]
-    for c in c_grams_sold.keys():
-
-        vendor = c.vendor_survey
+    vendors = dict([(v.id,v) for v in VendorSurvey.objects.all().select_related('marketplace')])
+    for k in cache.keys():
+        c = cache[k]
+        survey_id = c['vendor_survey']
+        vendor = vendors[survey_id]
         if request.user.is_authenticated == True:
-            vendor = "<a href='/market_survey/vendorsurvey/%d'> %s </a>" % (c.vendor_survey.id,c.vendor_survey)
+            vendor = "<a href='/market_survey/vendorsurvey/%d'> %s </a>" % (c['vendor_survey'],vendor)
 
         line = [
             "%s" % vendor,
-            "%s" % c.vegetable.name,
-            "%.2f kg" % (c_grams_bought[c] * 0.001),
-            "%.2f kg" % (c_grams_sold[c] * 0.001),
-            "$ %.2f" % c.purchase_price,
-            "$ %.2f" % c.purchase_unit_price,
-            "$ %.2f" % c.sale_price,
-            "$ %.2f" % c.total_dollars_sold,
-            "%s" % c.district,
-            "%d %%" % c.profit_margin]
+            "%s" % c['vegetable__name'],
+            "%.2f kg" % (c['grams_bought'] * 0.001),
+            "%.2f kg" % (c['grams_sold'] * 0.001),
+            "$ %.2f" % c['purchase_price'],
+            "$ %.2f" % c['purchase_unit_price'],
+            "$ %.2f" % c['sale_price'],
+            "$ %.2f" % c['total_dollars_sold'],
+            "%s" % c['district'],
+            "%d %%" % c['profit_margin']
+        ]
         # add missing vendor survey link
 
         line = "</td>\n\t\t\t<td>".join(line)
