@@ -22,7 +22,9 @@
           background: #fff;
       }
 
-      th, td { color: #000; }
+      th, td {
+        color: #000; 
+      }
 
       .results_container {
         margin-left: 50px;
@@ -118,7 +120,16 @@
           -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
         }
+       .results_section{
+        top:-100px;
 
+       } 
+
+       h4 a {
+       color: #fff;
+       font-size: 14px;
+
+       }
 
     </style>
 {% endblock %}
@@ -144,15 +155,13 @@
 
     {% else %}<!--<hr>-->
 
-    <div class="thumbnail explore">
-      <a href='/summary/' class="icon-file"><h3>{% trans 'Change filter' %}</h3></a> 
-    </div>
-
-    <br>
-    <br>
-    <br>
     <div id='results_section' class="results_container">
-      <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
+      <h4><a href='/summary/' class="icon-search">&nbsp; 
+{% trans 'New Query' %}</a> 
+      &nbsp; &nbsp; 
+      <a href="?{{querystring}}&CSV=True" class="icon-download">&nbsp; 
+{% trans "Export summary & details as CSV" %}</a></h4>
+ <br>
       <h2>{% trans "Summary"%}</h2>
      <table>
         <thead>
@@ -166,8 +175,8 @@
           </tr>
         </thead>
         <tr>
-            <td> {{ total_kg_bought }} </td>
-            <td> {{ total_kg_sold }} </td>
+            <td> {{ total_kg_bought|floatformat:2 }} kg </td>
+            <td> {{ total_kg_sold|floatformat:2 }} kg </td>
             <td> ${{ unit_dollars_bought|floatformat:2 }} </td>
             <td> ${{ avg_sale|floatformat:2 }} </td>
             <td> ${{ total_dollars_sold|floatformat:2 }} </td>
@@ -176,6 +185,7 @@
      </table>
     </div>
     <!-- <hr> -->
+    <br>
     <br>
     <div class="results_container">
         <h2> {% trans 'Detail' %} </h2>
@@ -192,14 +202,12 @@
                 <tr>
                   <th> {% trans 'Vendor' %} </th>
                   <th> {% trans 'Vegetable' %} </th>
-                  <th> {% trans 'Total Units bought' %} </th>
+                  <th> {% trans 'Total Kg bought' %} </th>
+                  <th> {% trans 'Total Kg sold' %} </th>
                   <th> {% trans 'Total $ bought' %} </th>
                   <th> {% trans 'Units $ bought' %} </th>
-                  <!--th> {% trans 'Total Units bought (gr)' %} </th--> 
-                  <th> {% trans 'Total Units sold' %} </th>
                   <th> {% trans 'Units $ sold' %} </th>
-                  <th> {% trans 'Total $ sold' %} </th>
-                  <!--th> {% trans 'Total Units sold (gr)' %} </th-->          
+                  <th> {% trans 'Total $ sold' %} </th>          
                   <th> {% trans 'District Origin' %} </th>
                   <th> {% trans 'Profit Margin' %} </th>
                 </tr>
@@ -207,16 +215,20 @@
             <tbody>
             {% for obj in filter %}
                 <tr>
-                  <td> {{ obj.vendor_survey}} </td>
+                  <td>
+                    {% if user.is_authenticated %}
+                     <a href='/market_survey/vendorsurvey/{{ obj.vendor_survey.id}}'> {{ obj.vendor_survey}} </a>
+                    {% else %}
+                     {{ obj.vendor_survey}}
+                    {% endif %}
+                  </td>
                   <td> {{ obj.vegetable }} </td>
-                  <td> {{ obj.purchase_quantity }} </td>
+                  <td> {{ obj.total_kg_bought|floatformat:2 }} kg </td>
+                  <td> {{ obj.total_kg_sold|floatformat:2 }} kg </td> 
                   <td> ${{ obj.purchase_price|floatformat:2 }} </td>
                   <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
-                  <!--td> {{ obj.total_kg_bought }} </td-->
-                  <td> {{ obj.sale_quantity }} </td>
                   <td> ${{ obj.sale_price|floatformat:2 }} </td>
-                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>    
-                  <!--td> {{ obj.total_kg_sold }} </td-->   
+                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>      
                   <td> {{ obj.district }} </td>
                   <td> {{ obj.profit_margin }}% </td>
                 </tr>

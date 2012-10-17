@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.template.context import RequestContext
 
-from models import Commodity,VegetableWeight
+from models import Commodity
 from filters import CommodityFilter
 
 
@@ -45,29 +45,21 @@ def avg_product_list(request):
             print "time for unit total sold:",(datetime.now() - t0)
 
         # Calculates weights
-        t0 = datetime.now()
-        veggies_infos = dict([((c.vegetable,c.vendor_survey.survey),[c.purchase_quantity,c.sale_quantity]) for c in filter.qs.all()])
+        #t0 = datetime.now()
+        #veggies = dict([(c.vegetable, [c.purchase_quantity, c.sale_quantity, c.vendor_survey]) for c in filter.qs.all()])
 
         #hopefully, only one weight per vegetable | survey pair
-        # ha!. Nope.
-        just_veggies = [k[0] for k in veggies_infos.keys()]
-        veggies_weights = dict([((w.vegetable,w.survey),w.grams) for w in VegetableWeight.objects.filter(vegetable__in=just_veggies)])
-
-        grams_bought = 0
-        grams_sold   = 0
-        for k in veggies_infos.keys():
-            if k in veggies_weights:
-                grams_bought += veggies_weights[k] * float(veggies_infos[k][0])
-                grams_sold   += veggies_weights[k] * float(veggies_infos[k][1])
-            else:
-                print "no vegetable weight for ",k
+        #veggies_weights = dict([(v, v.vegetableweight_set.filter(survey=veggies[v][2].survey).aggregate(Sum('grams'))['grams__sum']) for v in veggies.keys()])
 
         #grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
         #grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
-        print "time for total weight bought & sold:",(datetime.now() - t0)
+        #print "time for total weight bought & sold:", (datetime.now() - t0)
 
-        total_kg_bought = grams_bought / 1000.0
-        total_kg_sold = grams_sold / 1000.0
+        #total_kg_bought = grams_bought * 0.001
+        #total_kg_sold = grams_sold * 0.001
+
+        total_kg_bought = sum([c.total_kg_bought for c in filter.qs.all()])
+        total_kg_sold = sum([c.total_kg_sold for c in filter.qs.all()])
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -113,26 +105,21 @@ def export_as_csv(response,queryset,context=None):
         header = [_('Filtered data summary'), date.today().strftime('%Y/%m/%d')]
         writer.writerow(header)
         columns =[
-            _("Total Units bought"),
-            _("Total $ bought"),
-            _("Units $ bought"),
-            _("Total Units sold"),
-            _("Units $ sold"),
+            _("Total Kg bought"),
+            _("Total Kg sold"),
+            _("Average Units $ bought"),
+            _("Average Unit $ Sold"),
             _("Total $ sold"),
-            _("Average Purchase"),
-            _("Average Unit Sale"),
-            _("Profit Margin")
+            _("Total $ sold"),
+            _("Profit Margin"),
         ]
         writer.writerow(columns)
         writer.writerow([
-            context['total_units_bought'],
-            "$ %2f" % context['total_dollars_bought'],
-            "%2f" % context['unit_dollars_bought'],
-            context['total_units_sold'],
-            "%2f" % context['unit_dollars_sold'],
-            "$ %2f" % context['total_dollars_sold'],
-            "$ %2f" % context['avg_purchase'],
+            context['total_kg_bought'],
+            context['total_kg_sold'],
+            "$ %2f" % context['unit_dollars_bought'],
             "$ %2f" % context['avg_sale'],
+            "$ %2f" % context['total_dollars_sold'],
             "%2f %%" % context['profit_margin']
         ])
 
@@ -143,9 +130,11 @@ def export_as_csv(response,queryset,context=None):
         _('Total Units bought'),
         _('Total $ bought'),
         _('Units $ bought'),
+        _('Total Kg bought'),
         _('Total Units sold'),
         _('Units $ sold'),
         _('Total $ sold'),
+        _('Total Kg sold'),
         _('District Origin'),
         _('Profit Margin')
     ])
@@ -157,9 +146,11 @@ def export_as_csv(response,queryset,context=None):
             obj.purchase_quantity ,
             "$ %2f" % obj.purchase_price,
             "$ %2f" %  obj.purchase_unit_price,
+            obj.total_kg_bought,
             obj.sale_quantity,
             obj.sale_price,
             "$ %2f" % obj.total_dollars_sold,
+            obj.total_kg_sold,
             obj.district ,
             "%2f %%" % obj.profit_margin])
     return response
