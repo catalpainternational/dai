@@ -43,7 +43,7 @@
 {% if not is_popup %}
     {% block breadcrumbs %}
         <ul class="grp-horizontal-list">
-            <li><a href="../">{% trans "Home" %}</a></li>
+            <li><a href="/{{LANGUAGE_CODE}}/">{% trans "Home" %}</a></li>
             {% for app in app_list %}
                 {% blocktrans with app.name as name %}<li>{{ name }}</li>{% endblocktrans %}
             {% endfor %}
@@ -59,11 +59,11 @@
                     <h2>{% trans app.name %}</h2>
                     {% for model in app.models %}
                         <div class="grp-row">
-                            {% if model.perms.change %}<a href="{{ model.admin_url }}"><strong>{{ model.name }}</strong></a>{% else %}<span><strong>{{ model.name }}</strong></span>{% endif %}
+                            {% if model.perms.change %}<a href="/{{LANGUAGE_CODE}}{{ model.admin_url }}"><strong>{{ model.name }}</strong></a>{% else %}<span><strong>{{ model.name }}</strong></span>{% endif %}
                             {% if model.perms.add or model.perms.change %}
                                 <ul class="grp-actions">
-                                    {% if model.perms.add %}<li class="grp-add-link"><a href="{{ model.admin_url }}add/">{% trans 'Add' %}</a></li>{% endif %}
-                                    {% if model.perms.change %}<li class="grp-change-link"><a href="{{ model.admin_url }}">{% trans 'Change' %}</a></li>{% endif %}
+                                    {% if model.perms.add %}<li class="grp-add-link"><a href="/{{LANGUAGE_CODE}}{{ model.admin_url }}add/">{% trans 'Add' %}</a></li>{% endif %}
+                                    {% if model.perms.change %}<li class="grp-change-link"><a href="/{{LANGUAGE_CODE}}{{ model.admin_url }}">{% trans 'Change' %}</a></li>{% endif %}
                                 </ul>
                             {% endif %}
                         </div>
