@@ -56,7 +56,18 @@ def avg_product_list(request):
         grams_bought = 0
         grams_sold = 0
         weightless = 0
-        for c in filter.qs.all().values('vegetable','vendor_survey','vendor_survey__survey','purchase_quantity','sale_quantity','id','vegetable__name','purchase_price','sale_price','district'):
+        fields = (
+            'id',
+            'vegetable',
+            'vegetable__name',
+            'vendor_survey',
+            'vendor_survey__survey',
+            'purchase_quantity',
+            'purchase_price',
+            'sale_quantity',
+            'sale_price',
+            'district')
+        for c in filter.qs.all().values(*fields):
             buff = c
 
             buff['purchase_unit_price'] = 0 if c['purchase_price'] == 0 else  c['purchase_price'] / c['purchase_quantity']
@@ -110,7 +121,7 @@ def avg_product_list(request):
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = 'attachment; filename=market_survey_summarized_%s.csv' % date.today().strftime('%Y_%m_%d')
         t0 = datetime.now()
-        response = export_as_csv(response, filter.qs, context)
+        response = export_as_csv(response, filter.qs, cache, context)
         print "time for CSV export:",(datetime.now() - t0)
         return response
 
@@ -127,30 +138,29 @@ def avg_product_list(request):
     print "Total time:",(datetime.now() - t00)
     return response
 
-def export_as_csv(response,queryset,context=None):
+def export_as_csv(response,queryset,cache,context):
 
     writer = unicodecsv.writer(response)
-    if context:
-        header = [_('Filtered data summary'), date.today().strftime('%Y/%m/%d')]
-        writer.writerow(header)
-        columns =[
-            _("Total Kg bought"),
-            _("Total Kg sold"),
-            _("Average Units $ bought"),
-            _("Average Unit $ Sold"),
-            _("Total $ sold"),
-            _("Total $ sold"),
-            _("Profit Margin"),
-        ]
-        writer.writerow(columns)
-        writer.writerow([
-            context['total_kg_bought'],
-            context['total_kg_sold'],
-            "$ %2f" % context['unit_dollars_bought'],
-            "$ %2f" % context['avg_sale'],
-            "$ %2f" % context['total_dollars_sold'],
-            "%2f %%" % context['profit_margin']
-        ])
+    header = [_('Filtered data summary'), date.today().strftime('%Y/%m/%d')]
+    writer.writerow(header)
+    columns =[
+        _("Total Kg bought"),
+        _("Total Kg sold"),
+        _("Average Units $ bought"),
+        _("Average Unit $ Sold"),
+        _("Total $ sold"),
+        _("Total $ sold"),
+        _("Profit Margin"),
+    ]
+    writer.writerow(columns)
+    writer.writerow([
+        context['total_kg_bought'],
+        context['total_kg_sold'],
+        "$ %2f" % context['unit_dollars_bought'],
+        "$ %2f" % context['avg_sale'],
+        "$ %2f" % context['total_dollars_sold'],
+        "%2f %%" % context['profit_margin']
+    ])
 
     writer.writerow([_('Filtered data'), date.today().strftime('%Y/%m/%d')])
     writer.writerow([
@@ -168,20 +178,28 @@ def export_as_csv(response,queryset,context=None):
         _('Profit Margin')
     ])
 
-    for obj in queryset:
-        writer.writerow([
-            obj.vendor_survey,
-            obj.vegetable ,
-            obj.purchase_quantity ,
-            "$ %2f" % obj.purchase_price,
-            "$ %2f" %  obj.purchase_unit_price,
-            obj.total_kg_bought,
-            obj.sale_quantity,
-            obj.sale_price,
-            "$ %2f" % obj.total_dollars_sold,
-            obj.total_kg_sold,
-            obj.district ,
-            "%2f %%" % obj.profit_margin])
+    lines =[]
+    vendors = dict([(v.id,v) for v in VendorSurvey.objects.all().select_related('marketplace')])
+    for k in cache.keys():
+        c = cache[k]
+        survey_id = c['vendor_survey']
+        vendor_survey = vendors[survey_id]
+        line = [
+            "%s" % vendor_survey,
+            "%s" % c['vegetable__name'],
+            "%d" % c['purchase_quantity'],
+            "$ %.2f" % c['purchase_price'],
+            "$ %.2f" % c['purchase_unit_price'],
+            "%.2f kg" % (c['grams_bought'] * 0.001),
+            "%d" % c['sale_quantity'],
+            "$ %.2f" % c['sale_price'],
+            "$ %.2f" % c['total_dollars_sold'],
+            "%.2f kg" % (c['grams_sold'] * 0.001),
+            "%s" % c['district'],
+            "%d %%" % c['profit_margin']
+        ]
+        writer.writerow(line)
+
     return response
 
 
@@ -207,7 +225,6 @@ def get_results_tbody(request,cache):
             "%s" % c['district'],
             "%d %%" % c['profit_margin']
         ]
-        # add missing vendor survey link
 
         line = "</td>\n\t\t\t<td>".join(line)
         lines.append(line)
