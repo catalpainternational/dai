@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.template.context import RequestContext
 
-from models import Commodity
+from models import Commodity,VegetableWeight
 from filters import CommodityFilter
 
 
@@ -46,17 +46,28 @@ def avg_product_list(request):
 
         # Calculates weights
         t0 = datetime.now()
-        veggies = dict([(c.vegetable,[c.purchase_quantity,c.sale_quantity,c.vendor_survey]) for c in filter.qs.all()])
+        veggies_infos = dict([((c.vegetable,c.vendor_survey.survey),[c.purchase_quantity,c.sale_quantity]) for c in filter.qs.all()])
 
         #hopefully, only one weight per vegetable | survey pair
-        veggies_weights = dict([(v, v.vegetableweight_set.filter(survey=veggies[v][2].survey).aggregate(Sum('grams'))['grams__sum']) for v in veggies.keys()])
+        # ha!. Nope.
+        just_veggies = [k[0] for k in veggies_infos.keys()]
+        veggies_weights = dict([((w.vegetable,w.survey),w.grams) for w in VegetableWeight.objects.filter(vegetable__in=just_veggies)])
 
-        grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
-        grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
+        grams_bought = 0
+        grams_sold   = 0
+        for k in veggies_infos.keys():
+            if k in veggies_weights:
+                grams_bought += veggies_weights[k] * float(veggies_infos[k][0])
+                grams_sold   += veggies_weights[k] * float(veggies_infos[k][1])
+            else:
+                print "no vegetable weight for ",k
+
+        #grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
+        #grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
         print "time for total weight bought & sold:",(datetime.now() - t0)
 
-        total_kg_bought = grams_bought / 1000
-        total_kg_sold = grams_sold / 1000
+        total_kg_bought = grams_bought / 1000.0
+        total_kg_sold = grams_sold / 1000.0
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
