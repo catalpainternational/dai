@@ -44,33 +44,26 @@ def avg_product_list(request):
             total_dollars_sold = sum([ c.sale_price * c.sale_quantity for c in filter.qs.all()])
             print "time for unit total sold:",(datetime.now() - t0)
 
-        # Calculates weights
-            #t0 = datetime.now()
-        #veggies = dict([(c.vegetable, [c.purchase_quantity, c.sale_quantity, c.vendor_survey]) for c in filter.qs.all()])
 
-        #hopefully, only one weight per vegetable | survey pair
-        #veggies_weights = dict([(v, v.vegetableweight_set.filter(survey=veggies[v][2].survey).aggregate(Sum('grams'))['grams__sum']) for v in veggies.keys()])
-
-        #grams_bought = sum([veggies[v][0] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
-        #grams_sold   = sum([veggies[v][1] * veggies_weights[v] for v in veggies.keys() if veggies_weights[v] != None])
-        #print "time for total weight bought & sold:", (datetime.now() - t0)
-
-        #total_kg_bought = grams_bought * 0.001
-        #total_kg_sold = grams_sold * 0.001
         t0 = datetime.now()
-        veggies_infos = dict([((c.vegetable,c.vendor_survey.survey),[c.purchase_quantity,c.sale_quantity]) for c in filter.qs.all()])
+        # #hopefully, only one weight per vegetable | survey pair
+        # # ha!. Nope.
+        # get all the weights, independently of the survey
+        veggies_weights = dict([((w.vegetable,w.survey),w.grams) for w in VegetableWeight.objects.all()])
 
-        #hopefully, only one weight per vegetable | survey pair
-        # ha!. Nope.
-        just_veggies = [k[0] for k in veggies_infos.keys()]
-        veggies_weights = dict([((w.vegetable,w.survey),w.grams) for w in VegetableWeight.objects.filter(vegetable__in=just_veggies)])
+        print "there are %d commodity to assess" % filter.qs.all().count()
+        print "there are %d weights" % len(veggies_weights)
 
-        grams_bought = 0
-        grams_sold   = 0
-        for k in veggies_infos.keys():
+
+
+        grams_bought = 0.0
+        grams_sold   = 0.0
+        for c in filter.qs.all():
+            k = (c.vegetable,c.vendor_survey.survey)
+
             if k in veggies_weights:
-                grams_bought += veggies_weights[k] * float(veggies_infos[k][0])
-                grams_sold   += veggies_weights[k] * float(veggies_infos[k][1])
+                grams_bought += float(veggies_weights[k]) * float(c.purchase_quantity)
+                grams_sold   += float(veggies_weights[k]) * float(c.sale_quantity)
             else:
                 print "no vegetable weight for ",k
 
@@ -110,14 +103,17 @@ def avg_product_list(request):
     if 'CSV' in request.GET:
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = 'attachment; filename=market_survey_summarized_%s.csv' % date.today().strftime('%Y_%m_%d')
-
+        t0 = datetime.now()
         response = export_as_csv(response, filter.qs, context)
+        print "time for CSV export:",(datetime.now() - t0)
         return response
 
     print "Total time calculation:",(datetime.now() - t00)
+    t0 = datetime.now()
     response = render_to_response('market_survey/filter.html',
                               context,
                               context_instance=RequestContext(request))
+    print "Time for HTML rendering:",(datetime.now() - t0)
     print "Total time:",(datetime.now() - t00)
     return response
 
