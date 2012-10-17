@@ -213,26 +213,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for obj in filter %}
-                <tr>
-                  <td>
-                    {% if user.is_authenticated %}
-                     <a href='/market_survey/vendorsurvey/{{ obj.vendor_survey.id}}'> {{ obj.vendor_survey}} </a>
-                    {% else %}
-                     {{ obj.vendor_survey}}
-                    {% endif %}
-                  </td>
-                  <td> {{ obj.vegetable }} </td>
-                  <td> {{ obj.total_kg_bought|floatformat:2 }} kg </td>
-                  <td> {{ obj.total_kg_sold|floatformat:2 }} kg </td> 
-                  <td> ${{ obj.purchase_price|floatformat:2 }} </td>
-                  <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
-                  <td> ${{ obj.sale_price|floatformat:2 }} </td>
-                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>      
-                  <td> {{ obj.district }} </td>
-                  <td> {{ obj.profit_margin }}% </td>
-                </tr>
-            {% endfor %}
+              {{results_table_body|safe}}
             </tbody>
         </table>
     </div>

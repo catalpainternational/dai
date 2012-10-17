@@ -25,7 +25,8 @@ def avg_product_list(request):
         'filter': filter,
         'querystring': request.META['QUERY_STRING']
         }
-
+    c_grams_bought = {}
+    c_grams_sold = {}
     if len(request.META['QUERY_STRING'])>0: # some filter
         total_units_bought = filter.qs.aggregate(Sum('purchase_quantity'))['purchase_quantity__sum']
         total_dollars_bought = filter.qs.aggregate(Sum('purchase_price'))['purchase_price__sum']
@@ -54,28 +55,31 @@ def avg_product_list(request):
         print "there are %d commodity to assess" % filter.qs.all().count()
         print "there are %d weights" % len(veggies_weights)
 
-
-
+        n = 0
         grams_bought = 0.0
         grams_sold   = 0.0
         for c in filter.qs.all():
             k = (c.vegetable,c.vendor_survey.survey)
 
             if k in veggies_weights:
-                grams_bought += float(veggies_weights[k]) * float(c.purchase_quantity)
-                grams_sold   += float(veggies_weights[k]) * float(c.sale_quantity)
+                c_grams_bought[c] = veggies_weights[k] * c.purchase_quantity
+                c_grams_sold[c] = veggies_weights[k] * c.sale_quantity
+
+                grams_bought += c_grams_bought[c]
+                grams_sold   += c_grams_sold[c]
             else:
-                print "no vegetable weight for ",k
+                n +=1 #print "no vegetable weight for ",k
 
         total_kg_bought = grams_bought * 0.001
         total_kg_sold = grams_sold * 0.001
+        print "there are %d missing prices" % n
         print "time for total weight bought & sold method 1:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
 
 
-        t0 = datetime.now()
-        total_kg_bought = sum([c.total_kg_bought for c in filter.qs.all()])
-        total_kg_sold = sum([c.total_kg_sold for c in filter.qs.all()])
-        print "time for total weight bought & sold method 2:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
+        # t0 = datetime.now()
+        # total_kg_bought = sum([c.total_kg_bought for c in filter.qs.all()])
+        # total_kg_sold = sum([c.total_kg_sold for c in filter.qs.all()])
+        # print "time for total weight bought & sold method 2:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -109,6 +113,10 @@ def avg_product_list(request):
         return response
 
     print "Total time calculation:",(datetime.now() - t00)
+    t0 = datetime.now()
+    context['results_table_body']=get_results_tbody(request,c_grams_bought,c_grams_sold)
+    print "Time for TBODY content rendering:",(datetime.now() - t0)
+
     t0 = datetime.now()
     response = render_to_response('market_survey/filter.html',
                               context,
@@ -173,3 +181,30 @@ def export_as_csv(response,queryset,context=None):
             obj.district ,
             "%2f %%" % obj.profit_margin])
     return response
+
+
+def get_results_tbody(request,c_grams_bought,c_grams_sold):
+    lines =[]
+    for c in c_grams_sold.keys():
+
+        vendor = c.vendor_survey
+        if request.user.is_authenticated == True:
+            vendor = "<a href='/market_survey/vendorsurvey/%d'> %s </a>" % (c.vendor_survey.id,c.vendor_survey)
+
+        line = [
+            "%s" % vendor,
+            "%s" % c.vegetable.name,
+            "%.2f kg" % (c_grams_bought[c] * 0.001),
+            "%.2f kg" % (c_grams_sold[c] * 0.001),
+            "$ %.2f" % c.purchase_price,
+            "$ %.2f" % c.purchase_unit_price,
+            "$ %.2f" % c.sale_price,
+            "$ %.2f" % c.total_dollars_sold,
+            "%s" % c.district,
+            "%d %%" % c.profit_margin]
+        # add missing vendor survey link
+
+        line = "</td>\n\t\t\t<td>".join(line)
+        lines.append(line)
+    s = "<tr><td>" + "</td></tr>\n\t\t<tr>\n\t\t\t<td>".join(lines)
+    return s
