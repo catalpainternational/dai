@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-17 01:41-0500\n"
-"PO-Revision-Date: 2012-10-17 01:46\n"
-"Last-Translator:   <a@fo.ho>\n"
+"POT-Creation-Date: 2012-10-18 20:36-0500\n"
+"PO-Revision-Date: 2012-10-18 20:43\n"
+"Last-Translator:   <a.hofstee@catalpainternational.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Surveys"
 msgstr "Survey sira"
 
-#: filters.py:11 models.py:63 views.py:129
+#: filters.py:11 models.py:63 views.py:168
 #: templates/market_survey/filter.html:204
 msgid "Vegetable"
 msgstr "Modo"
@@ -107,7 +107,7 @@ msgstr "Unidade (fa'an)"
 msgid "Unit Price (sold)"
 msgstr "Unidade Folin (fa'an)"
 
-#: models.py:135 views.py:138 templates/market_survey/filter.html:211
+#: models.py:135 views.py:177 templates/market_survey/filter.html:211
 msgid "District Origin"
 msgstr "Distritu"
 
@@ -171,7 +171,7 @@ msgstr "Idade"
 msgid "Sex"
 msgstr "Sexu"
 
-#: models.py:242 views.py:128 templates/market_survey/filter.html:203
+#: models.py:242 views.py:167 templates/market_survey/filter.html:203
 msgid "Vendor"
 msgstr "Vendedor"
 
@@ -179,60 +179,55 @@ msgstr "Vendedor"
 msgid "Vendors"
 msgstr "Vendedores"
 
-#: views.py:105
+#: views.py:144
 msgid "Filtered data summary"
 msgstr "Sumario dadus"
 
-#: views.py:108 views.py:133 templates/market_survey/filter.html:169
-#: templates/market_survey/filter.html:205
+#: views.py:147 views.py:172
 msgid "Total Kg bought"
 msgstr "Total Kg sosa"
 
-#: views.py:109 views.py:137 templates/market_survey/filter.html:170
-#: templates/market_survey/filter.html:206
+#: views.py:148 views.py:176
 msgid "Total Kg sold"
 msgstr "Total Kg fa'an"
 
-#: views.py:110 templates/market_survey/filter.html:171
+#: views.py:149
 msgid "Average Units $ bought"
 msgstr "Rata-rata $ unidade sosa"
 
-#: views.py:111 templates/market_survey/filter.html:172
+#: views.py:150
 msgid "Average Unit $ Sold"
 msgstr "Rata-rata $ unidade fa'an"
 
-#: views.py:112 views.py:113 views.py:136
-#: templates/market_survey/filter.html:173
-#: templates/market_survey/filter.html:210
+#: views.py:151 views.py:152 views.py:175
 msgid "Total $ sold"
 msgstr "Total unidade fa'an"
 
-#: views.py:114 views.py:139 templates/market_survey/filter.html:174
-#: templates/market_survey/filter.html:212
+#: views.py:153 views.py:178 templates/market_survey/filter.html:212
 msgid "Profit Margin"
 msgstr ""
 
-#: views.py:126
+#: views.py:165
 msgid "Filtered data"
 msgstr ""
 
-#: views.py:130
+#: views.py:169
 msgid "Total Units bought"
 msgstr "Total unidade nebe sosa"
 
-#: views.py:131 templates/market_survey/filter.html:207
+#: views.py:170
 msgid "Total $ bought"
 msgstr "Total sosa wainhira fa'an"
 
-#: views.py:132 templates/market_survey/filter.html:208
+#: views.py:171
 msgid "Units $ bought"
 msgstr "Folin unidade wainhira sosa"
 
-#: views.py:134
+#: views.py:173
 msgid "Total Units sold"
 msgstr "Total unidade fa'an"
 
-#: views.py:135 templates/market_survey/filter.html:209
+#: views.py:174
 msgid "Units $ sold"
 msgstr "Folin unidade fa'an"
 
@@ -264,11 +259,11 @@ msgstr "Troka"
 msgid "You don´t have permission to edit anything."
 msgstr ""
 
-#: templates/admin/base_site.html:4
+#: templates/admin/base_site.html:5
 msgid "Market Survey admin"
 msgstr "Survey Merkadu"
 
-#: templates/admin/base_site.html:12
+#: templates/admin/base_site.html:13
 msgid "Market Survey administration"
 msgstr "Base de Dadus husi Survey Merkadu"
 
@@ -323,9 +318,48 @@ msgstr "Rai dadus iha format CSV"
 msgid "Summary"
 msgstr "Sumario"
 
+#: templates/market_survey/filter.html:169
+#: templates/market_survey/filter.html:205
+msgid "Total Stock bought (kg)"
+msgstr "Total Stok sosa (kg)"
+
+#: templates/market_survey/filter.html:170
+#: templates/market_survey/filter.html:206
+msgid "Total Stock sold (kg)"
+msgstr "Total Stok fa'an (kg)"
+
+#: templates/market_survey/filter.html:171
+msgid "Average unit purchase price"
+msgstr "Rata-rata folin sosa kada unidade"
+
+#: templates/market_survey/filter.html:172
+msgid "Average unit sale price"
+msgstr "Rata-rata folin fa'an kada unidade"
+
+#: templates/market_survey/filter.html:173
+#: templates/market_survey/filter.html:210
+msgid "Total revenue"
+msgstr "Total osan manan"
+
+#: templates/market_survey/filter.html:174
+msgid "Profit margin"
+msgstr ""
+
 #: templates/market_survey/filter.html:191
 msgid "Detail"
 msgstr ""
+
+#: templates/market_survey/filter.html:207
+msgid "Total purchase price"
+msgstr "Total gastu wainhira sosa"
+
+#: templates/market_survey/filter.html:208
+msgid "Unit purchase price"
+msgstr "Folin unidade waihira sosa"
+
+#: templates/market_survey/filter.html:209
+msgid "Unit sale price"
+msgstr "Folin unidade waihira fa'an"
 
 #: templates/market_survey/index.html:153
 msgid "Market Survey Database"
@@ -350,20 +384,11 @@ msgstr "Software dezenvolvementu husi Catalpa International"
 #~ msgid "All Surveys"
 #~ msgstr "Survey Hotu"
 
-#~ msgid "Average Purchase"
-#~ msgstr "Média Sosa"
-
-#~ msgid "Purchase Price"
-#~ msgstr "Folin (sosa)"
-
 #~ msgid "Purchase Quantity"
 #~ msgstr "Unidade (sosa)"
 
 #~ msgid "Purchase Unit Price"
 #~ msgstr "Folin tuir Unidade (sosa)"
-
-#~ msgid "Sale Price"
-#~ msgstr "Folin (fa'an)"
 
 #~ msgid "Sale Quantity"
 #~ msgstr "Unidade (fa'an)"
