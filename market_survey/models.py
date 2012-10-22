@@ -147,7 +147,7 @@ class Commodity(models.Model):
         try:
             vegetable_in_grams = VegetableWeight.objects.get(survey=survey, vegetable=self.vegetable).grams
         except:
-            print 'failed to match vegetable weigth for  %s and %s' % (survey, self.vegetable)
+            #print 'failed to match vegetable weigth for  %s and %s' % (survey, self.vegetable)
             vegetable_in_grams = 0
 
         return self.purchase_quantity * vegetable_in_grams * 0.001
@@ -158,7 +158,7 @@ class Commodity(models.Model):
         try:
             vegetable_in_grams = VegetableWeight.objects.get(survey=survey, vegetable=self.vegetable).grams
         except:
-            print 'failed to match vegetable weigth for  %s and %s' % (survey, self.vegetable)
+            #print 'failed to match vegetable weigth for  %s and %s' % (survey, self.vegetable)
             vegetable_in_grams = 0
 
         return self.sale_quantity * vegetable_in_grams * 0.001
