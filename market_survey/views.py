@@ -42,7 +42,7 @@ def avg_product_list(request):
         if unit_dollars_sold != None and total_units_sold != None:
             t0 = datetime.now()
             total_dollars_sold = sum([ c.sale_price * c.sale_quantity for c in filter.qs.all()])
-            print "time for unit total sold:",(datetime.now() - t0)
+            #print "time for unit total sold:",(datetime.now() - t0)
 
 
         t0 = datetime.now()
@@ -51,8 +51,8 @@ def avg_product_list(request):
         # get all the weights, independently of the survey
         veggies_weights = dict([((w['vegetable'],w['survey']),w['grams']) for w in VegetableWeight.objects.all().values('vegetable','grams','survey')])
 
-        print "there are %d commodity to assess" % filter.qs.all().count()
-        print "there are %d weights" % len(veggies_weights)
+        #print "there are %d commodity to assess" % filter.qs.all().count()
+        #print "there are %d weights" % len(veggies_weights)
         grams_bought = 0
         grams_sold = 0
         weightless = 0
@@ -91,8 +91,8 @@ def avg_product_list(request):
 
         total_kg_bought = grams_bought * 0.001
         total_kg_sold = grams_sold * 0.001
-        print "there are %d missing weights" % weightless
-        print "time for total weight bought & sold method 1:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
+        #print "there are %d missing weights" % weightless
+        #print "time for total weight bought & sold method 1:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
 
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
@@ -122,20 +122,20 @@ def avg_product_list(request):
         response['Content-Disposition'] = 'attachment; filename=market_survey_summarized_%s.csv' % date.today().strftime('%Y_%m_%d')
         t0 = datetime.now()
         response = export_as_csv(response, filter.qs, cache, context)
-        print "time for CSV export:",(datetime.now() - t0)
+        #print "time for CSV export:",(datetime.now() - t0)
         return response
 
-    print "Total time calculation:",(datetime.now() - t00)
+    #print "Total time calculation:",(datetime.now() - t00)
     t0 = datetime.now()
     context['results_table_body']=get_results_tbody(request,cache)
-    print "Time for TBODY content rendering:",(datetime.now() - t0)
+    #print "Time for TBODY content rendering:",(datetime.now() - t0)
 
     t0 = datetime.now()
     response = render_to_response('market_survey/filter.html',
                               context,
                               context_instance=RequestContext(request))
-    print "Time for HTML rendering:",(datetime.now() - t0)
-    print "Total time:",(datetime.now() - t00)
+    #print "Time for HTML rendering:",(datetime.now() - t0)
+    #print "Total time:",(datetime.now() - t00)
     return response
 
 def export_as_csv(response,queryset,cache,context):
@@ -218,7 +218,7 @@ def get_results_tbody(request,cache):
             "%s" % c['vegetable__name'],
             "%.2f kg" % (c['grams_bought'] * 0.001),
             "%.2f kg" % (c['grams_sold'] * 0.001),
-            "$ %.2f" % c['purchase_price'],
+            #"$ %.2f" % c['purchase_price'],
             "$ %.2f" % c['purchase_unit_price'],
             "$ %.2f" % c['sale_price'],
             "$ %.2f" % c['total_dollars_sold'],
