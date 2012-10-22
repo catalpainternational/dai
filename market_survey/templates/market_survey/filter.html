@@ -166,21 +166,21 @@
      <table>
         <thead>
           <tr>
-              <th> {% trans 'Total Kg bought' %} </th>
-              <th> {% trans 'Total Kg sold' %} </th>    
-              <th> {% trans 'Average Units $ bought' %} </th>
-              <th> {% trans "Average Unit $ Sold" %} </th> 
-              <th> {% trans 'Total $ sold' %} </th>
-              <th> {% trans "Profit Margin" %} </th>
+              <th> {% trans 'Total Stock bought (kg)' %} </th>
+              <th> {% trans 'Total Stock sold (kg)' %} </th>    
+              <!--th> {% trans 'Average unit purchase price' %} </th-->
+              <th> {% trans "Average unit sale price" %} </th> 
+              <th> {% trans 'Total revenue' %} </th>
+              <th> {% trans "Profit margin" %} </th>
           </tr>
         </thead>
         <tr>
-            <td> {{ total_kg_bought|floatformat:2 }} kg </td>
-            <td> {{ total_kg_sold|floatformat:2 }} kg </td>
-            <td> ${{ unit_dollars_bought|floatformat:2 }} </td>
-            <td> ${{ avg_sale|floatformat:2 }} </td>
-            <td> ${{ total_dollars_sold|floatformat:2 }} </td>
-            <td> {{ profit_margin }}% </td>
+            <td> {{ total_kg_bought|floatformat:0|intcomma }} kg </td>
+            <td> {{ total_kg_sold|floatformat:0|intcomma }} kg </td>
+            <!--td> ${{ unit_dollars_bought|floatformat:2|intcomma }} </td-->
+            <td> ${{ avg_sale|floatformat:2|intcomma }} </td>
+            <td> ${{ total_dollars_sold|floatformat:2|intcomma }} </td>
+            <td> {{ profit_margin|intcomma }}% </td>
         </tr>
      </table>
     </div>
@@ -202,12 +202,12 @@
                 <tr>
                   <th> {% trans 'Vendor' %} </th>
                   <th> {% trans 'Vegetable' %} </th>
-                  <th> {% trans 'Total Kg bought' %} </th>
-                  <th> {% trans 'Total Kg sold' %} </th>
-                  <th> {% trans 'Total $ bought' %} </th>
-                  <th> {% trans 'Units $ bought' %} </th>
-                  <th> {% trans 'Units $ sold' %} </th>
-                  <th> {% trans 'Total $ sold' %} </th>          
+                  <th> {% trans 'Total Stock bought (kg)' %} </th>
+                  <th> {% trans 'Total Stock sold (kg)' %} </th>
+                  <!--th> {% trans 'Total purchase price' %} </th-->
+                  <th> {% trans 'Unit purchase price' %} </th>
+                  <th> {% trans 'Unit sale price' %} </th>
+                  <th> {% trans 'Total revenue' %} </th>          
                   <th> {% trans 'District Origin' %} </th>
                   <th> {% trans 'Profit Margin' %} </th>
                 </tr>
