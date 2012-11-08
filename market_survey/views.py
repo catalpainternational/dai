@@ -2,6 +2,7 @@ import unicodecsv
 
 from datetime import date
 from datetime import datetime
+from decimal import *
 
 from django.shortcuts import render_to_response
 from django.db.models import Avg, Sum
@@ -13,12 +14,18 @@ from models import Commodity,VegetableWeight,VendorSurvey
 from filters import CommodityFilter
 
 
+def iround(x):
+    """iround(number) -> integer
+    Round a number to the nearest integer."""
+    return int(round(x) - .5) + (x > 0)
+
 
 def index(request):
     return render_to_response('market_survey/index.html', context_instance=RequestContext(request))
 
 
 def avg_product_list(request):
+    getcontext().prec = 2
     t00 = datetime.now()
     filter = CommodityFilter(request.GET, queryset=Commodity.objects.all())
     context = {
@@ -33,7 +40,7 @@ def avg_product_list(request):
 
         unit_dollars_bought = None
         if total_dollars_bought > 0:
-            unit_dollars_bought = total_dollars_bought / total_units_bought
+            unit_dollars_bought = float(Decimal(total_dollars_bought / total_units_bought) + Decimal(0.0))
 
         total_units_sold = filter.qs.aggregate(Sum('sale_quantity'))['sale_quantity__sum']
         unit_dollars_sold = filter.qs.aggregate(Sum('sale_price'))['sale_price__sum']
@@ -69,11 +76,10 @@ def avg_product_list(request):
             'district')
         for c in filter.qs.all().values(*fields):
             buff = c
-
-            buff['purchase_unit_price'] = 0 if c['purchase_price'] == 0 else  c['purchase_price'] / c['purchase_quantity']
+            buff['sale_price'] = c['sale_price']
+            buff['purchase_unit_price'] = 0 if c['purchase_price'] == 0 else c['purchase_price'] / c['purchase_quantity']
             buff['total_dollars_sold'] = c['sale_price'] * c['sale_quantity']
-            buff['profit_margin'] =  100 if buff['purchase_price']==0 else int((c['sale_price'] - buff['purchase_unit_price']) / buff['purchase_unit_price'] * 100)
-
+            buff['profit_margin'] =  100 if buff['purchase_price']==0 else iround((buff['sale_price'] - round(buff['purchase_unit_price'],2)) / round(buff['purchase_unit_price'], 2) * 100)
             k = (c['vegetable'],c['vendor_survey__survey'])
             if k in veggies_weights:
                 bought = veggies_weights[k] * int(c['purchase_quantity'])
@@ -99,7 +105,8 @@ def avg_product_list(request):
 
         profit_margin = None
         if unit_dollars_bought != None:
-            profit_margin = int((avg_sale - unit_dollars_bought) / unit_dollars_bought * 100)
+
+            profit_margin = iround(round((avg_sale - unit_dollars_bought), 2) / round(unit_dollars_bought, 2) * 100)
 
         context = {
             'filter': filter,
