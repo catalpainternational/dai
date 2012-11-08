@@ -54,7 +54,7 @@ def avg_product_list(request):
 
         t0 = datetime.now()
         # #hopefully, only one weight per vegetable | survey pair
-        # # ha!. Nope.
+        # # ha! Nope.
         # get all the weights, independently of the survey
         veggies_weights = dict([((w['vegetable'],w['survey']),w['grams']) for w in VegetableWeight.objects.all().values('vegetable','grams','survey')])
 
@@ -74,16 +74,16 @@ def avg_product_list(request):
             'sale_quantity',
             'sale_price',
             'district')
-        for c in filter.qs.all().values(*fields):
-            buff = c
-            buff['sale_price'] = c['sale_price']
-            buff['purchase_unit_price'] = 0 if c['purchase_price'] == 0 else c['purchase_price'] / c['purchase_quantity']
-            buff['total_dollars_sold'] = c['sale_price'] * c['sale_quantity']
+        for commodity in filter.qs.all().values(*fields):
+            buff = commodity
+            buff['sale_price'] = commodity['sale_price']
+            buff['purchase_unit_price'] = 0 if commodity['purchase_price'] == 0 else commodity['purchase_price'] / commodity['purchase_quantity']
+            buff['total_dollars_sold'] = commodity['sale_price'] * commodity['sale_quantity']
             buff['profit_margin'] =  100 if buff['purchase_price']==0 else iround((buff['sale_price'] - round(buff['purchase_unit_price'],2)) / round(buff['purchase_unit_price'], 2) * 100)
-            k = (c['vegetable'],c['vendor_survey__survey'])
+            k = (commodity['vegetable'],commodity['vendor_survey__survey'])
             if k in veggies_weights:
-                bought = veggies_weights[k] * int(c['purchase_quantity'])
-                sold   = veggies_weights[k] * int(c['sale_quantity'])
+                bought = veggies_weights[k] * int(commodity['purchase_quantity'])
+                sold   = veggies_weights[k] * int(commodity['sale_quantity'])
                 buff['grams_bought'] = bought
                 buff['grams_sold']   = sold
 
@@ -93,7 +93,7 @@ def avg_product_list(request):
                 buff['grams_bought'] = 0
                 buff['grams_sold']   = 0
                 weightless +=1
-            cache[c['id']]=buff
+            cache[commodity['id']]=buff
 
         total_kg_bought = grams_bought * 0.001
         total_kg_sold = grams_sold * 0.001
@@ -188,22 +188,22 @@ def export_as_csv(response,queryset,cache,context):
     lines =[]
     vendors = dict([(v.id,v) for v in VendorSurvey.objects.all().select_related('marketplace')])
     for k in cache.keys():
-        c = cache[k]
-        survey_id = c['vendor_survey']
+        line_cache = cache[k]
+        survey_id = line_cache['vendor_survey']
         vendor_survey = vendors[survey_id]
         line = [
             "%s" % vendor_survey,
-            "%s" % c['vegetable__name'],
-            "%d" % c['purchase_quantity'],
-            "$ %.2f" % c['purchase_price'],
-            "$ %.2f" % c['purchase_unit_price'],
-            "%.2f kg" % (c['grams_bought'] * 0.001),
-            "%d" % c['sale_quantity'],
-            "$ %.2f" % c['sale_price'],
-            "$ %.2f" % c['total_dollars_sold'],
-            "%.2f kg" % (c['grams_sold'] * 0.001),
-            "%s" % c['district'],
-            "%d %%" % c['profit_margin']
+            "%s" % line_cache['vegetable__name'],
+            "%d" % line_cache['purchase_quantity'],
+            "$ %.2f" % line_cache['purchase_price'],
+            "$ %.2f" % line_cache['purchase_unit_price'],
+            "%.2f kg" % (line_cache['grams_bought'] * 0.001),
+            "%d" % line_cache['sale_quantity'],
+            "$ %.2f" % line_cache['sale_price'],
+            "$ %.2f" % line_cache['total_dollars_sold'],
+            "%.2f kg" % (line_cache['grams_sold'] * 0.001),
+            "%s" % line_cache['district'],
+            "%d %%" % line_cache['profit_margin']
         ]
         writer.writerow(line)
 
@@ -214,23 +214,23 @@ def get_results_tbody(request,cache):
     lines =[]
     vendors = dict([(v.id,v) for v in VendorSurvey.objects.all().select_related('marketplace')])
     for k in cache.keys():
-        c = cache[k]
-        survey_id = c['vendor_survey']
+        line_cache = cache[k]
+        survey_id = line_cache['vendor_survey']
         vendor = vendors[survey_id]
         if request.user.is_authenticated == True:
-            vendor = "<a href='/market_survey/vendorsurvey/%d'> %s </a>" % (c['vendor_survey'],vendor)
+            vendor = "<a href='/market_survey/vendorsurvey/%d'> %s </a>" % (line_cache['vendor_survey'],vendor)
 
         line = [
             "%s" % vendor,
-            "%s" % c['vegetable__name'],
-            "%.2f kg" % (c['grams_bought'] * 0.001),
-            "%.2f kg" % (c['grams_sold'] * 0.001),
-            #"$ %.2f" % c['purchase_price'],
-            "$ %.2f" % c['purchase_unit_price'],
-            "$ %.2f" % c['sale_price'],
-            "$ %.2f" % c['total_dollars_sold'],
-            "%s" % c['district'],
-            "%d %%" % c['profit_margin']
+            "%s" % line_cache['vegetable__name'],
+            "%.2f kg" % (line_cache['grams_bought'] * 0.001),
+            "%.2f kg" % (line_cache['grams_sold'] * 0.001),
+            #"$ %.2f" % line_cache['purchase_price'],
+            "$ %.2f" % line_cache['purchase_unit_price'],
+            "$ %.2f" % line_cache['sale_price'],
+            "$ %.2f" % line_cache['total_dollars_sold'],
+            "%s" % line_cache['district'],
+            "%d %%" % line_cache['profit_margin']
         ]
 
         line = "</td>\n\t\t\t<td>".join(line)
