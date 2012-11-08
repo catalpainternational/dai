@@ -75,28 +75,31 @@ def avg_product_list(request):
             'sale_price',
             'district')
         for commodity in filter.qs.all().values(*fields):
-            buff = commodity
-            buff['sale_price'] = commodity['sale_price']
-            buff['purchase_unit_price'] = 0 if commodity['purchase_price'] == 0 else commodity['purchase_price'] / commodity['purchase_quantity']
-            buff['total_dollars_sold'] = commodity['sale_price'] * commodity['sale_quantity']
-            buff['profit_margin'] =  100 if buff['purchase_price']==0 else iround((buff['sale_price'] - round(buff['purchase_unit_price'],2)) / round(buff['purchase_unit_price'], 2) * 100)
+            commodity['purchase_unit_price'] = 0 if commodity['purchase_price'] == 0 else commodity['purchase_price'] / commodity['purchase_quantity']
+            commodity['total_dollars_sold'] = commodity['sale_price'] * commodity['sale_quantity']
+            commodity['profit_margin'] =  100 if commodity['purchase_price']==0 else iround((commodity['sale_price'] - round(commodity['purchase_unit_price'],2)) / round(commodity['purchase_unit_price'], 2) * 100)
             k = (commodity['vegetable'],commodity['vendor_survey__survey'])
             if k in veggies_weights:
                 bought = veggies_weights[k] * int(commodity['purchase_quantity'])
                 sold   = veggies_weights[k] * int(commodity['sale_quantity'])
-                buff['grams_bought'] = bought
-                buff['grams_sold']   = sold
+                commodity['grams_bought'] = bought
+                commodity['grams_sold']   = sold
+
+                commodity['kg_bought'] = iround(bought * 0.1) / 100.0
+                commodity['kg_sold']   = iround(sold * 0.1) / 100.0
 
                 grams_bought += bought
                 grams_sold   += sold
             else:
-                buff['grams_bought'] = 0
-                buff['grams_sold']   = 0
+                commodity['grams_bought'] = 0
+                commodity['grams_sold']   = 0
+                commodity['kg_bought'] = 0
+                commodity['kg_sold']   = 0
                 weightless +=1
-            cache[commodity['id']]=buff
+            cache[commodity['id']]=commodity
 
-        total_kg_bought = grams_bought * 0.001
-        total_kg_sold = grams_sold * 0.001
+        total_kg_bought = iround(grams_bought * 0.1) / 100.0
+        total_kg_sold = iround(grams_sold * 0.1) / 100.0
         #print "there are %d missing weights" % weightless
         #print "time for total weight bought & sold method 1:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
 
@@ -197,11 +200,11 @@ def export_as_csv(response,queryset,cache,context):
             "%d" % line_cache['purchase_quantity'],
             "$ %.2f" % line_cache['purchase_price'],
             "$ %.2f" % line_cache['purchase_unit_price'],
-            "%.2f kg" % (line_cache['grams_bought'] * 0.001),
+            "%.2f kg" % (line_cache['kg_bought']),
             "%d" % line_cache['sale_quantity'],
             "$ %.2f" % line_cache['sale_price'],
             "$ %.2f" % line_cache['total_dollars_sold'],
-            "%.2f kg" % (line_cache['grams_sold'] * 0.001),
+            "%.2f kg" % (line_cache['kg_sold']),
             "%s" % line_cache['district'],
             "%d %%" % line_cache['profit_margin']
         ]
@@ -223,8 +226,8 @@ def get_results_tbody(request,cache):
         line = [
             "%s" % vendor,
             "%s" % line_cache['vegetable__name'],
-            "%.2f kg" % (line_cache['grams_bought'] * 0.001),
-            "%.2f kg" % (line_cache['grams_sold'] * 0.001),
+            "%.2f kg" % (line_cache['kg_bought']),
+            "%.2f kg" % (line_cache['kg_sold']),
             #"$ %.2f" % line_cache['purchase_price'],
             "$ %.2f" % line_cache['purchase_unit_price'],
             "$ %.2f" % line_cache['sale_price'],
