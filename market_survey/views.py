@@ -159,7 +159,6 @@ def export_as_csv(response,queryset,cache,context):
         _("Average Units $ bought"),
         _("Average Unit $ Sold"),
         _("Total $ sold"),
-        _("Total $ sold"),
         _("Profit Margin"),
     ]
     writer.writerow(columns)
