@@ -74,11 +74,15 @@ def avg_product_list(request):
             'sale_quantity',
             'sale_price',
             'district')
+        margins = 0
+        counter = 0
         for commodity in filter.qs.all().values(*fields):
             commodity['purchase_unit_price'] = 0 if commodity['purchase_price'] == 0 else commodity['purchase_price'] / commodity['purchase_quantity']
             commodity['total_dollars_sold'] = commodity['sale_price'] * commodity['sale_quantity']
             commodity['profit_margin'] =  100 if commodity['purchase_price']==0 else iround((commodity['sale_price'] - round(commodity['purchase_unit_price'],2)) / round(commodity['purchase_unit_price'], 2) * 100)
             k = (commodity['vegetable'],commodity['vendor_survey__survey'])
+            margins += commodity['profit_margin']
+            counter += 1
             if k in veggies_weights:
                 bought = veggies_weights[k] * int(commodity['purchase_quantity'])
                 sold   = veggies_weights[k] * int(commodity['sale_quantity'])
@@ -108,8 +112,8 @@ def avg_product_list(request):
 
         profit_margin = None
         if unit_dollars_bought != None:
-
-            profit_margin = iround(round((avg_sale - unit_dollars_bought), 2) / round(unit_dollars_bought, 2) * 100)
+            # a = ((avg_sale - unit_dollars_bought) / unit_dollars_bought) * 100
+            profit_margin = margins / counter
 
         context = {
             'filter': filter,
