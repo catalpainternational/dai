@@ -10,7 +10,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.template.context import RequestContext
 
-from models import Commodity,VegetableWeight,VendorSurvey
+from models import Commodity, VegetableWeight, VendorSurvey
 from filters import CommodityFilter
 
 
@@ -34,7 +34,7 @@ def avg_product_list(request):
         }
 
     cache = {}
-    if len(request.META['QUERY_STRING'])>0: # some filter
+    if len(request.META['QUERY_STRING']) > 0:  # some filter
         total_units_bought = filter.qs.aggregate(Sum('purchase_quantity'))['purchase_quantity__sum']
         total_dollars_bought = filter.qs.aggregate(Sum('purchase_price'))['purchase_price__sum']
 
@@ -48,7 +48,7 @@ def avg_product_list(request):
 
         if unit_dollars_sold != None and total_units_sold != None:
             t0 = datetime.now()
-            total_dollars_sold = sum([ c.sale_price * c.sale_quantity for c in filter.qs.all()])
+            total_dollars_sold = sum([c.sale_price * c.sale_quantity for c in filter.qs.all()])
             #print "time for unit total sold:",(datetime.now() - t0)
 
 
@@ -56,7 +56,7 @@ def avg_product_list(request):
         # #hopefully, only one weight per vegetable | survey pair
         # # ha! Nope.
         # get all the weights, independently of the survey
-        veggies_weights = dict([((w['vegetable'],w['survey']),w['grams']) for w in VegetableWeight.objects.all().values('vegetable','grams','survey')])
+        veggies_weights = dict([((w['vegetable'], w['survey']), w['grams']) for w in VegetableWeight.objects.all().values('vegetable', 'grams', 'survey')])
 
         #print "there are %d commodity to assess" % filter.qs.all().count()
         #print "there are %d weights" % len(veggies_weights)
@@ -75,45 +75,53 @@ def avg_product_list(request):
             'sale_price',
             'district')
         margins = 0
+        aggregate_total_dollars_sold = 0
+        total_kg_bought = 0
+        total_kg_sold = 0
         counter = 0
         for commodity in filter.qs.all().values(*fields):
             commodity['purchase_unit_price'] = 0 if commodity['purchase_price'] == 0 else commodity['purchase_price'] / commodity['purchase_quantity']
             commodity['total_dollars_sold'] = commodity['sale_price'] * commodity['sale_quantity']
-            commodity['profit_margin'] =  100 if commodity['purchase_price']==0 else iround((commodity['sale_price'] - round(commodity['purchase_unit_price'],2)) / round(commodity['purchase_unit_price'], 2) * 100)
-            k = (commodity['vegetable'],commodity['vendor_survey__survey'])
+            commodity['profit_margin'] = 100 if commodity['purchase_price'] == 0 else iround((commodity['sale_price'] - round(commodity['purchase_unit_price'], 2)) / round(commodity['purchase_unit_price'], 2) * 100)
+            k = (commodity['vegetable'], commodity['vendor_survey__survey'])
             margins += commodity['profit_margin']
+            aggregate_total_dollars_sold += commodity['total_dollars_sold']
             counter += 1
             if k in veggies_weights:
                 bought = veggies_weights[k] * int(commodity['purchase_quantity'])
-                sold   = veggies_weights[k] * int(commodity['sale_quantity'])
+                sold = veggies_weights[k] * int(commodity['sale_quantity'])
                 commodity['grams_bought'] = bought
-                commodity['grams_sold']   = sold
+                commodity['grams_sold'] = sold
 
                 commodity['kg_bought'] = iround(bought * 0.1) / 100.0
-                commodity['kg_sold']   = iround(sold * 0.1) / 100.0
+                commodity['kg_sold'] = iround(sold * 0.1) / 100.0
 
                 grams_bought += bought
-                grams_sold   += sold
+                grams_sold += sold
             else:
                 commodity['grams_bought'] = 0
-                commodity['grams_sold']   = 0
+                commodity['grams_sold'] = 0
                 commodity['kg_bought'] = 0
-                commodity['kg_sold']   = 0
-                weightless +=1
-            cache[commodity['id']]=commodity
+                commodity['kg_sold'] = 0
+                weightless += 1
+            cache[commodity['id']] = commodity
+            total_kg_bought += commodity['kg_bought']
+            total_kg_sold += commodity['kg_sold']
 
-        total_kg_bought = iround(grams_bought * 0.1) / 100.0
-        total_kg_sold = iround(grams_sold * 0.1) / 100.0
+        #total_kg_bought = iround(grams_bought * 0.1) / 100.0
+        #total_kg_sold = iround(grams_sold * 0.1) / 100.0
+
         #print "there are %d missing weights" % weightless
         #print "time for total weight bought & sold method 1:",(datetime.now() - t0),'b:',total_kg_bought,'s:',total_kg_sold
 
+        total_dollars_sold = aggregate_total_dollars_sold
         avg_sale = filter.qs.aggregate(Avg('sale_price'))['sale_price__avg']
         avg_purchase = filter.qs.aggregate(Avg('purchase_price'))['purchase_price__avg']
 
         profit_margin = None
         if unit_dollars_bought != None:
             # a = ((avg_sale - unit_dollars_bought) / unit_dollars_bought) * 100
-            profit_margin = margins / counter
+            profit_margin = int(margins / counter)
 
         context = {
             'filter': filter,
@@ -141,7 +149,7 @@ def avg_product_list(request):
 
     #print "Total time calculation:",(datetime.now() - t00)
     t0 = datetime.now()
-    context['results_table_body']=get_results_tbody(request,cache)
+    context['results_table_body'] = get_results_tbody(request, cache)
     #print "Time for TBODY content rendering:",(datetime.now() - t0)
 
     t0 = datetime.now()
@@ -152,12 +160,13 @@ def avg_product_list(request):
     #print "Total time:",(datetime.now() - t00)
     return response
 
-def export_as_csv(response,queryset,cache,context):
+
+def export_as_csv(response, queryset, cache, context):
 
     writer = unicodecsv.writer(response)
     header = [_('Filtered data summary'), date.today().strftime('%Y/%m/%d')]
     writer.writerow(header)
-    columns =[
+    columns = [
         _("Total Kg bought"),
         _("Total Kg sold"),
         _("Average Units $ bought"),
@@ -172,7 +181,7 @@ def export_as_csv(response,queryset,cache,context):
         "$ %2f" % context['unit_dollars_bought'],
         "$ %2f" % context['avg_sale'],
         "$ %2f" % context['total_dollars_sold'],
-        "%2f %%" % context['profit_margin']
+        "%d %%" % context['profit_margin']
     ])
 
     writer.writerow([_('Filtered data'), date.today().strftime('%Y/%m/%d')])
@@ -192,7 +201,7 @@ def export_as_csv(response,queryset,cache,context):
     ])
 
     lines =[]
-    vendors = dict([(v.id,v) for v in VendorSurvey.objects.all().select_related('marketplace')])
+    vendors = dict([(v.id, v) for v in VendorSurvey.objects.all().select_related('marketplace')])
     for k in cache.keys():
         line_cache = cache[k]
         survey_id = line_cache['vendor_survey']
@@ -216,15 +225,15 @@ def export_as_csv(response,queryset,cache,context):
     return response
 
 
-def get_results_tbody(request,cache):
+def get_results_tbody(request, cache):
     lines =[]
-    vendors = dict([(v.id,v) for v in VendorSurvey.objects.all().select_related('marketplace')])
+    vendors = dict([(v.id, v) for v in VendorSurvey.objects.all().select_related('marketplace')])
     for k in cache.keys():
         line_cache = cache[k]
         survey_id = line_cache['vendor_survey']
         vendor = vendors[survey_id]
         if request.user.is_authenticated == True:
-            vendor = "<a href='/market_survey/vendorsurvey/%d'> %s </a>" % (line_cache['vendor_survey'],vendor)
+            vendor = "<a href='/market_survey/vendorsurvey/%d'> %s </a>" % (line_cache['vendor_survey'], vendor)
 
         line = [
             "%s" % vendor,
