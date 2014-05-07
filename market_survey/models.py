@@ -11,6 +11,7 @@ DISTRICTS = (
              ('Aileu', 'Aileu'),
              ('Ainaro', 'Ainaro'),
              ('Baucau', 'Baucau'),
+             ('Bobonaro', 'Bobonaro'),
              ('Covalima', 'Covalima'),
              ('Dili', 'Dili'),
              ('Ermera', 'Ermera'),
@@ -20,7 +21,7 @@ DISTRICTS = (
              ('Manufahi', 'Manufahi'),
              ('Oe-cussi', 'Oe-cussi'),
              ('Viqueque', 'Viqueque'),
-             ('International', 'International')
+             ('Rai-liur', 'Rai-liur/International'),
              )
 
 ## End of Globals ##
