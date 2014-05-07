@@ -1,0 +1,162 @@
+{% extends "admin/base_site.html" %}
+{% load i18n humanize %}
+
+
+{% block title %}{% trans 'Market Survey' %}{% endblock %}
+
+{% block extrastyle %}
+  {{ super.block }}
+   <style>
+      body {
+            background: url(/static/images/header-bg.png) repeat-x #eaeaea;
+            font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 18px;
+            margin: 0px;
+      }
+
+      table { 
+          width: 90%;
+          background: #fff;
+      }
+
+      th, td { color: #000; }
+
+      .results_container {
+        margin-left: 50px;
+
+      }
+
+      form { padding-bottom: 10pt;
+            -moz-box-shadow: 0 0 8px #676762;
+            -webkit-box-shadow: 0 0 8px #676762;
+            box-shadow: 0 0 8px #676762;
+            padding:20px;
+            margin-left:250px;
+            padding-left:70px;
+            background-color: #f6f6f5;
+            width: 400px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;  
+      }
+
+      form ul { list-style-type:none; }
+
+      form ul li { padding: 10pt;}
+
+      label { 
+              display: block; 
+              font-size: 14pt;
+              margin-bottom: 10pt;
+      }
+
+      input{
+              position: relative;
+              left: 285px;
+      }
+  
+      select { width: 250pt; }
+
+      select[multiple="multiple"] { height: 60pt; }
+
+    </style>
+{% endblock %}
+
+{% block extrahead %}
+    {{ super.block }}
+    <script type="text/javascript" src="/static/js/jquery-1.8.1.min.js"></script> 
+    <script src="/static/js/jquery.tablesorter.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div id='survey_section'>
+      <form action="" method="GET">
+        <ul>
+          {{ filter.form.as_ul }}
+        </ul>
+        <input type="submit" />
+      </form>
+    </div>
+    <hr>
+    <div id='results_section' class="results_container">
+      <a href="?{{querystring}}&CSV=True">{% trans "Export summary & details as CSV" %}</a>
+      <h2>{% trans "Summary"%}</h2>
+     <table>
+        <thead>
+          <tr>
+              <th> {% trans 'Total Units bought' %} </th>
+              <th> {% trans 'Total $ bought' %} </th>
+              <th> {% trans 'Units $ bought' %} </th>
+              <!--th> {% trans 'Total units (gr)' %} </th--> 
+              <th> {% trans 'Total Units sold' %} </th>
+              <th> {% trans 'Units $ sold' %} </th>
+              <th> {% trans 'Total $ sold' %} </th>
+              <!--th> {% trans 'Total units (gr)' %} </th-->          
+              <th> {% trans "Average Purchase" %} </th>
+              <th> {% trans "Average Sale" %} </th>
+              <th> {% trans "Gross Margin" %} </th>
+          </tr>
+        </thead>
+        <tr>
+            <td> {{ total_units_bought }} </td>
+            <td> ${{ total_dollars_bought|floatformat:2 }} </td>
+            <td> {{ unit_dollars_bought|floatformat:2 }} </td>
+            <td> {{ total_units_sold }} </td>
+            <td> ${{ unit_dollars_sold|floatformat:2 }} </td>
+            <td> ${{ total_dollars_sold|floatformat:2 }} </td>
+            <td> ${{ avg_purchase|floatformat:2 }} </td>
+            <td> ${{ avg_sale|floatformat:2 }} </td>
+            <td> {{ profit_margin }}% </td>
+        </tr>
+     </table>
+    </div>
+    <hr>
+    <div class="results_container">
+        <h2> {% trans 'Detail' %} </h2>
+
+        <script>
+            $(document).ready(function() 
+                { 
+                    $("#sort_table").tablesorter({sortList: [[0,1]]}); 
+                } 
+            ); 
+        </script>
+        <table class='sort_table' id='sort_table'>
+            <thead>
+                <tr>
+                  <th> {% trans 'Vendor' %} </th>
+                  <th> {% trans 'Vegetable' %} </th>
+                  <th> {% trans 'Total Units bought' %} </th>
+                  <th> {% trans 'Total $ bought' %} </th>
+                  <th> {% trans 'Units $ bought' %} </th>
+                  <!--th> {% trans 'Total units (gr)' %} </th--> 
+                  <th> {% trans 'Total Units sold' %} </th>
+                  <th> {% trans 'Units $ sold' %} </th>
+                  <th> {% trans 'Total $ sold' %} </th>
+                  <!--th> {% trans 'Total units (gr)' %} </th-->          
+                  <th> {% trans 'District Origin' %} </th>
+                  <th> {% trans 'Gross Margin' %} </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for obj in filter %}
+                <tr>
+                  <td> {{ obj.vendor_survey}} </td>
+                  <td> {{ obj.vegetable }} </td>
+                  <td> {{ obj.purchase_quantity }} </td>
+                  <td> ${{ obj.purchase_price|floatformat:2 }} </td>
+                  <td> ${{ obj.purchase_unit_price|floatformat:2 }} </td>
+                  <td> {{ obj.sale_quantity }} </td>
+                  <td> ${{ obj.sale_price|floatformat:2 }} </td>
+                  <td> ${{ obj.total_dollars_sold|floatformat:2 }} </td>       
+                  <td> {{ obj.district }} </td>
+                  <td> {{ obj.profit_margin }}% </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
